@@ -8,10 +8,14 @@ If not, it will add the url to the dataset.
 """
 import sys
 import datetime
+import json
+import copy
 
 if __name__ == "__main__":
     file_path = sys.argv[1]
-    with open(file_path,'r') as file: dataset: list = [line[:-1] for line in file]
+    with open(file_path,'r') as file: dataset = list(json.load(file))
+    list_of_urls = [sample["data"]["ImageURL"] for sample in dataset]
+    new_urls = []
 
     print("Welcome to the dataset wizard!")
     url_input: str = "notEmpty"
@@ -22,17 +26,21 @@ if __name__ == "__main__":
 
         #Save data
         if url == "save":
-            data = ""
-            for line in dataset:
-                data += str(line)
-                data += "\n"
-            with open(str(f"data_{str(datetime.datetime.now())}").replace(" ","_") + ".csv", "w") as f:
-                f.write(data)
+            with open("base.json", "r") as base: base_json = json.load(base)
+            for idx, url in enumerate(new_urls):
+                sample_json = copy.deepcopy(base_json)
+                sample_json["data"]["ImageURL"] = url
+                sample_json["id"] = idx + len(list_of_urls) + 1
+                dataset.append(sample_json)
+
+            with open(f"{datetime.datetime.now()}.json", "w") as target:
+                json.dump(dataset, target, indent=4)
+
             break
         
         #Check URL
-        if url in dataset:
+        if url in list_of_urls or url in new_urls:
             print("URL does already exist!")
         else:
             print("Add URL to dataset!")
-            dataset.append(url)
+            new_urls.append(url)
