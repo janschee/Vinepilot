@@ -6,6 +6,18 @@
             "completed_by": null,
             "result": [
                 {
+                    "value": {
+                        "polygonlabels": [
+                            "Track"
+                        ]
+                    },
+                    "id": null,
+                    "from_name": "label",
+                    "to_name": "image",
+                    "type": "polygonlabels",
+                    "origin": "manual"
+                },
+                {
                     "original_width": null,
                     "original_height": null,
                     "image_rotation": 0,
