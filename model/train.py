@@ -11,7 +11,7 @@ def load_sample() -> tuple: #(data, annotations)
         train_data = json.load(f)
         for sample in train_data:
             image_id: int = sample["id"]
-            annotations: list = sample["annotations"][0]["result"][1]#["value"]["points"]
+            annotations: list = sample["annotations"][0]["result"][1]["value"]["points"]
 
             print(image_id, annotations)
 
