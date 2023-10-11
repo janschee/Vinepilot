@@ -1,0 +1,7 @@
+model:
+  epochs: 100
+dataset:
+  image_dir: "./data/imgs"
+  data: "./data/data.json"
+train:
+test:
