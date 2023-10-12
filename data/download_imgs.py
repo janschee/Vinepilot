@@ -2,32 +2,31 @@
 """
 This script downloads the images listed in data.csv
 """
-import sys
 import requests
 import shutil
+import json
+import yaml
+import os
 
-#Get paths
-path = sys.argv[1]
 target_dir = "./imgs"
+this_file: str = os.path.abspath(__file__)
+base_dir: str = os.path.dirname(os.path.dirname(this_file))
+config_file: str = os.path.normpath(os.path.join(base_dir, "./config.yaml")) 
+config: dict = yaml.safe_load(open(config_file, "r"))
+data_path: str = os.path.normpath(os.path.join(base_dir, config["dataset"]["data"]))
+data: list[dict] = json.load(open(data_path, "r"))
 
-#Dataloader
-def load(file):
-    for line in file: yield line
-
-#Pull images
-with open(path, 'r') as data:
-    read_line = load(data)
-    next(read_line) #Skip csv header
-    for i, url in enumerate(read_line):
-        url = url[:-1] #Remove line break
-        img_req = requests.get(url,stream=True)
-        if img_req.status_code == 200:
-            print(f"Get image {i}")
-            img_req.decode_content = True
-            with open(f"{target_dir}/img_{str(i).zfill(4)}.jpg", 'wb') as f: shutil.copyfileobj(img_req.raw,f)
-        else:
-            print(f"Failed to get image {i}")
-            break
+for sample in data:
+    image_id: int = int(sample["id"])
+    url: str = sample["data"]["ImageURL"]
+    img_req = requests.get(url,stream=True)
+    if img_req.status_code == 200:
+        print(f"Get image {image_id}")
+        img_req.decode_content = True
+        with open(f"{target_dir}/img_{str(image_id).zfill(4)}.jpg", 'wb') as f: shutil.copyfileobj(img_req.raw,f)
+    else:
+        print(f"Failed to get image {image_id}")
+        break
 
 
 
