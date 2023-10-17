@@ -6,12 +6,13 @@ import torch
 from PIL import Image
 from torchvision import transforms
 
-from ..config import Project
+from vinepilot.config import Project
 
 
-class VineTrackDataset(torch.utils.data.Dataset):
+class VinePilotDataset(torch.utils.data.Dataset):
     def __init__(self):
         self.data: list[dict] = json.load(open(Project.data_path, "r"))
+        self.image_to_tensor: function = transforms.ToTensor()
 
     def __len__(self):
         len_data: int = len(self.data)
@@ -22,5 +23,5 @@ class VineTrackDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         assert idx != 0, logging.error("The dataset uses one-based indexing, but index 0 was requested!")
         image_path: str = os.path.normpath(os.path.join(Project.image_dir, f"img_{str(idx).zfill(4)}.jpg"))
-        image_tensor: torch.TensorType = transforms.ToTensor(Image.open(image_path))
+        image_tensor: torch.TensorType = self.image_to_tensor(Image.open(image_path))
         print(image_tensor)

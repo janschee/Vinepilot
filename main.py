@@ -1,5 +1,5 @@
-from vinepilot.model.data import VineTrackDataset
+from vinepilot.model.data import VinePilotDataset
 
-dataset = VineTrackDataset()
+dataset = VinePilotDataset()
 dataset.__getitem__(2)
 
