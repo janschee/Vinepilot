@@ -24,7 +24,3 @@ class VineTrackDataset(torch.utils.data.Dataset):
         image_path: str = os.path.normpath(os.path.join(Project.image_dir, f"img_{str(idx).zfill(4)}.jpg"))
         image_tensor: torch.TensorType = transforms.ToTensor(Image.open(image_path))
         print(image_tensor)
-
-if __name__ == "__main__":
-    dataset = VineTrackDataset()
-    VineTrackDataset.__getitem__(2)

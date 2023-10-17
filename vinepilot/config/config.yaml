@@ -1,7 +1,7 @@
 model:
   epochs: 100
 dataset:
-  image_dir: "./data/imgs"
-  data: "./data/data.json"
+  image_dir: "./vinepilot/data/imgs"
+  data: "./vinepilot/data/data.json"
 train:
 test:
