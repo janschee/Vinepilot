@@ -10,4 +10,4 @@ class Project():
     data_path: str = os.path.normpath(os.path.join(base_dir, config["dataset"]["data"]))
 
 if __name__ == "__main__":
-    print(__package__) #TODO: Package is not recognized!
+    print(__package__)

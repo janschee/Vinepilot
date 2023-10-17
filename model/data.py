@@ -5,7 +5,9 @@ import torch
 
 from PIL import Image
 from torchvision import transforms
+
 from ..config import Project
+
 
 class VineTrackDataset(torch.utils.data.Dataset):
     def __init__(self):
