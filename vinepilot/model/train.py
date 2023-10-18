@@ -1,20 +1,22 @@
 
-import json
+def train(dataloader, model, loss_fn, optimizer):
+    size: int = len(dataloader.dataset)
+    model.train()
+    for batch, (image_tensor, label) in enumerate(dataloader):
 
-from model import TrackDetectionModel
+        #Forward
+        predictions: list = model(image_tensor)
+        loss = loss_fn(predictions, label)
 
-config: dict = json.load(open("./config.json", "r"))
+        #Backward
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+
+        if batch % 10 == 0: print(f"Batch: {batch}, Loss: {loss.item()}")
 
 
-def load_sample() -> tuple: #(data, annotations)
-    with open(config["train"]["train_data"], "r") as f:
-        train_data = json.load(f)
-        for sample in train_data:
-            image_id: int = sample["id"]
-            annotations: list = sample["annotations"][0]["result"][1]["value"]["points"]
 
-            print(image_id, annotations)
 
-if __name__ == "__main__":
-    load_sample()
+
         

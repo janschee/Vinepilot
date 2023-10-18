@@ -1,5 +1,10 @@
-from vinepilot.model.data import VinePilotDataset
+import torch
 
-dataset = VinePilotDataset()
-dataset.__getitem__(2)
+from vinepilot.model.model import TrackDetectionModel
+from vinepilot.model.dataloader import VinePilotDataloader
+from vinepilot.model.train import train
+
+train()
+
+
 

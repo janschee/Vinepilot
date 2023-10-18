@@ -9,7 +9,7 @@ from torchvision import transforms
 from vinepilot.config import Project
 
 
-class VinePilotDataset(torch.utils.data.Dataset):
+class VinePilotDataloader(torch.utils.data.Dataset):
     def __init__(self):
         self.data: list[dict] = json.load(open(Project.data_path, "r"))
         self.image_to_tensor: function = transforms.ToTensor()
@@ -21,7 +21,10 @@ class VinePilotDataset(torch.utils.data.Dataset):
         return len_data
 
     def __getitem__(self, idx):
-        assert idx != 0, logging.error("The dataset uses one-based indexing, but index 0 was requested!")
+        assert idx != 0, "The dataset uses one-based indexing, but index 0 was requested!"
+        assert idx <= self.__len__(), "Requested index is bigger than the size of the dataset!"
         image_path: str = os.path.normpath(os.path.join(Project.image_dir, f"img_{str(idx).zfill(4)}.jpg"))
         image_tensor: torch.TensorType = self.image_to_tensor(Image.open(image_path))
-        print(image_tensor)
+        label: list = self.data[idx-1]["annotations"][0]["result"][1]["value"]["points"]
+        return image_tensor, label
+        
