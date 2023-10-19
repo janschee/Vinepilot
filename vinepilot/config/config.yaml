@@ -4,4 +4,6 @@ dataset:
   image_dir: "./vinepilot/data/imgs"
   data: "./vinepilot/data/data.json"
 train:
+  batch_size: 1
+  shuffle: False
 test:

@@ -1,10 +1,6 @@
-import torch
+from vinepilot.model.data import VinePilotDataloader, VinePilotDataset
 
-from vinepilot.model.model import TrackDetectionModel
-from vinepilot.model.dataloader import VinePilotDataloader
-from vinepilot.model.train import train
-
-train()
-
-
+dataloader = VinePilotDataloader(VinePilotDataset)
+for batch, (image_tensor, label) in enumerate(dataloader()):
+    print(batch, label)
 
