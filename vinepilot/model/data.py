@@ -7,6 +7,7 @@ from PIL import Image
 from torchvision import transforms
 
 from vinepilot.config import Project
+from vinepilot.utils import check_points
 
 #Dataset
 class VinePilotDataset(torch.utils.data.Dataset):
@@ -24,13 +25,10 @@ class VinePilotDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         image_path: str = os.path.normpath(os.path.join(Project.image_dir, f"img_{str(idx+1).zfill(4)}.jpg"))
         image_tensor: torch.TensorType = self.image_to_tensor(Image.open(image_path))
-        #TODO: Improve error handling or make it redundant
-        label: list = self.data[idx]["annotations"][0]["result"][1]["value"]["points"]
-        if label[0][0] is None: 
-            logging.critical(f"Sample {idx+1} has no annotations!")
-            raise RuntimeError
-        label: torch.Tensor(label)
-        return image_tensor, label
+        points: list = self.data[idx]["annotations"][0]["result"][1]["value"]["points"]
+        is_valid: bool = check_points(idx+1, points)
+        points = torch.Tensor(points) if is_valid else torch.Tensor([-1])
+        return image_tensor, points, is_valid
 
 #Dataloader
 class VinePilotDataloader():
