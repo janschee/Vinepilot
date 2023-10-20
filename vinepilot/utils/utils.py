@@ -15,8 +15,20 @@ def reorder_points(points: list) -> list:
     y_total: float = 0
     for p in points[0]: x_total += p[0]; y_total += p[1]
     center = (x_total/4, y_total/4)
-    return center
-
+    
+    #Place points in reference to the center
+    new_order: list = [[]]*4
+    for p in points[0]:
+        is_left: bool =   p[0] < center[0]
+        is_upper: bool =  p[1] < center[1]
+        if is_upper and is_left: new_order[0]= p; continue
+        if not is_upper and is_left: new_order[1] = p; continue
+        if not is_upper and not is_left: new_order[2] = p; continue
+        if is_upper and not is_left: new_order[3] = p; continue
+    
+    #TODO: Check if all point are correct!
+    assert [] not in new_order, "Fatal! Point not set!"
+    return new_order
 
 def check_points(idx: int, points: list) -> bool:
     valid: bool = True
