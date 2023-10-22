@@ -8,4 +8,7 @@ dataset:
 train:
   batch_size: 1
   shuffle: False
+  optimizer: "adam"
+  learning_rate: 0.001
+  loss: "mse"
 test:

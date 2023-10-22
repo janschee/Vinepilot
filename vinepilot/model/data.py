@@ -7,7 +7,7 @@ from PIL import Image
 from torchvision import transforms
 
 from vinepilot.config import Project
-from vinepilot.utils import check_points
+from vinepilot.utils import check_points, sort_points
 
 #Dataset
 class VinePilotDataset(torch.utils.data.Dataset):
@@ -27,7 +27,7 @@ class VinePilotDataset(torch.utils.data.Dataset):
         image_tensor: torch.TensorType = self.image_to_tensor(Image.open(image_path))
         points: list = self.data[idx]["annotations"][0]["result"][1]["value"]["points"]
         is_valid: bool = check_points(idx+1, points)
-        points = torch.Tensor(points) if is_valid else torch.Tensor([-1])
+        points: torch.TensorType = torch.Tensor(sort_points(points)) if is_valid else torch.Tensor([-1])
         return image_tensor, points, is_valid
 
 #Dataloader

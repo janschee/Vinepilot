@@ -22,7 +22,7 @@ class TrackDetectionModel(torch.nn.Module):
 
     def forward(self, input):
         #Resize image
-        resize = torchvision.transforms.Resize((200, 300))
+        resize = torchvision.transforms.Resize((200, 300), antialias=True)
         x = resize(input)
 
         #Convert to Grayscale

@@ -2,7 +2,8 @@
 def train(dataloader, model, loss_fn, optimizer):
     size: int = len(dataloader.dataset)
     model.train()
-    for batch, (image_tensor, label) in enumerate(dataloader):
+    for batch, (image_tensor, label, valid) in enumerate(dataloader):
+        if not valid: continue
 
         #Forward
         predictions: list = model(image_tensor)
