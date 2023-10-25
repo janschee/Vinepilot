@@ -16,14 +16,14 @@ class TrackDetectionModel(torch.nn.Module):
         self.max_pool2 = torch.nn.MaxPool2d(kernel_size=3, stride=3)
 
         #Set3
-        self.fc1 = torch.nn.Linear(6000, 200)
+        self.fc1 = torch.nn.Linear(672, 200)
         self.relu1 = torch.nn.ReLU()
-        self.fc2 = torch.nn.Linear(200, 4)
+        self.fc2 = torch.nn.Linear(200, 8)
 
     def forward(self, input):
         #Resize image
         resize = torchvision.transforms.Resize((200, 300), antialias=True)
-        x = resize(input)
+        x = resize(input) #torch.Size([1, 1, 200, 300])
 
         #Convert to Grayscale
         grayscale = torchvision.transforms.Grayscale(num_output_channels=1)
@@ -40,14 +40,14 @@ class TrackDetectionModel(torch.nn.Module):
         x = self.max_pool2(x)
 
         #Flatten output
-        x = torch.reshape(x, (-1,))
+        x = torch.reshape(x, (-1,)) #torch.Size([672])
 
         #Set3
         x = self.fc1(x)
         x = self.relu1(x)
         x = self.fc2(x)
         
-        return x
+        return torch.reshape(x, (1,4,2))
 
 
 

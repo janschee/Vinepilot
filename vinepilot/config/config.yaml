@@ -1,12 +1,11 @@
 runtime:
-  logging_level: "debug"
-model:
-  epochs: 100
+  logging_level: "info"
 dataset:
   image_dir: "./vinepilot/data/imgs"
   data: "./vinepilot/data/data.json"
 train:
   batch_size: 1
+  epochs: 3
   shuffle: False
   optimizer: "adam"
   learning_rate: 0.001

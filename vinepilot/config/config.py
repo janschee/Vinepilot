@@ -11,8 +11,9 @@ class Project():
     image_dir: str = os.path.normpath(os.path.join(base_dir, config["dataset"]["image_dir"]))
     data_path: str = os.path.normpath(os.path.join(base_dir, config["dataset"]["data"]))
 
-    #Model
+    #Train
     batch_size: int = config["train"]["batch_size"]
+    epochs: int = config["train"]["epochs"]
     shuffle: bool = config["train"]["shuffle"]
     learning_rate: float = config["train"]["learning_rate"]
     optimizer: str = config["train"]["optimizer"]
