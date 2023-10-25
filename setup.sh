@@ -2,6 +2,7 @@
 
 #Install python
 apt install python3.10
+apt install python3.10-venv
 
 #Build virtual environment
 mkdir ./venv
