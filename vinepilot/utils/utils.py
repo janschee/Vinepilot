@@ -34,3 +34,5 @@ def check_points(idx: int, points: list) -> bool:
     return valid
 
 
+
+
