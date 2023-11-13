@@ -10,6 +10,7 @@ class Project():
     config: dict = yaml.safe_load(open(config_file, "r"))
     image_dir: str = os.path.normpath(os.path.join(base_dir, config["dataset"]["image_dir"]))
     data_path: str = os.path.normpath(os.path.join(base_dir, config["dataset"]["data"]))
+    vineyards_dir: str = os.path.normpath(os.path.join(base_dir, config["dataset"]["vineyards_dir"]))
 
     #Train
     batch_size: int = config["train"]["batch_size"]

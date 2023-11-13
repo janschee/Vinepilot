@@ -1,34 +1,54 @@
-import sys
 import os
-import pygame
+import logging 
+
+from http.server import SimpleHTTPRequestHandler, HTTPServer
 from vinepilot.config import Project
 
-WIDTH, HEIGHT = 600, 800
 img_path = os.path.abspath("./vinepilot/data/vineyards/vineyard_000/vineyard_1.svg")
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Virtual Vineyard")
-image = pygame.image.load(img_path)
-rect = image.get_rect()
+class AnnotationGenerator():
+    def __init__(self) -> None:
+        #self.svg_file: str = svg_path
+        self.annotations: list = [os.path.abspath("./vinepilot/data/vineyards/vineyard_000/vineyard_1.svg")]
+        self.current: int = 0
+        self.limit: int = len(self.annotations)
 
-# Main game loop
-def game():
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+    def __iter__(self):
+        return self
 
-        # Clear the screen
-        screen.fill((255, 255, 255))
+    def __next__(self):
+        if self.current < self.limit: 
+            self.current += 1
+            return self.annotations[self.current-1]
+        else: raise StopIteration
 
-        # Blit the image onto the screen
-        screen.blit(image, rect)
 
-        # Update the display
-        pygame.display.flip()
 
-        # Cap the frame rate
-        pygame.time.Clock().tick(60)
+class VineyardViewer():
+    def __init__(self) -> None:
+        self.annotation_generator = AnnotationGenerator()
+        self.annotations: list = [a for a in self.annotation_generator]
+        self.port: int = 8000
+        self.html: str = ""
+    
+    def build(self):
+        self.html += "<html><body><h1>VineyardViewer</h1>"
+        for img in self.annotations: self.html += f'<img src="/{img}">'
+        self.html += "</body></html>"
 
+    class Server(SimpleHTTPRequestHandler):
+        def __init__(self, content: str):
+            self.content = content
+
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write(self.content.encode())
+
+    def show(self):
+        self.build()
+        adress = (" ", self.port)
+        httpd = HTTPServer(adress, self.Server(content=self.html))
+        logging.INFO(f"Running on port {self.port}.")
+        httpd.serve_forever()

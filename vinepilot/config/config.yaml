@@ -3,6 +3,7 @@ runtime:
 dataset:
   image_dir: "./vinepilot/data/imgs"
   data: "./vinepilot/data/data.json"
+  vineyards_dir: "./vinepilot/data/vineyards"
 train:
   batch_size: 1
   epochs: 3

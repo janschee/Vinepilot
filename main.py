@@ -1,3 +1,5 @@
-from vinepilot.data.virtualvineyard import game
+from vinepilot.data.virtualvineyard import VineyardViewer
 
-game()
+viewer = VineyardViewer()
+viewer.show()
+
