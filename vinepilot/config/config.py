@@ -26,3 +26,6 @@ class Project():
     assert logging_level in levels.keys(), f"Unknown logging level in config file! Choose from {list(levels.keys())}!"
     logging.basicConfig(level=levels[logging_level])
 
+    #Server
+    host_address: str = config["server"]["host_address"]
+    port: int = config["server"]["port"]

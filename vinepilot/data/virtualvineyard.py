@@ -28,7 +28,8 @@ class VineyardViewer():
     def __init__(self) -> None:
         self.annotation_generator = AnnotationGenerator()
         self.annotations: list = [a for a in self.annotation_generator]
-        self.port: int = 8000
+        self.port: int = Project.port
+        self.host_address: str = Project.host_address
         self.html: str = ""
     
     def build(self):
@@ -37,8 +38,9 @@ class VineyardViewer():
         self.html += "</body></html>"
 
     class Server(SimpleHTTPRequestHandler):
-        def __init__(self, content: str):
-            self.content = content
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, *kwargs)
+            self.content = ""
 
         def do_GET(self):
             self.send_response(200)
@@ -48,7 +50,9 @@ class VineyardViewer():
 
     def show(self):
         self.build()
-        adress = (" ", self.port)
-        httpd = HTTPServer(adress, self.Server(content=self.html))
-        logging.INFO(f"Running on port {self.port}.")
+        address = (self.host_address, self.port)
+        server = self.Server
+        server.content = self.html
+        httpd = HTTPServer(address, server)
+        logging.info(f"Running on port {self.port}.")
         httpd.serve_forever()
