@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="446"
+   height="267"
+   viewBox="0 0 446 267"
+   sodipodi:docname="vineyard_1.svg"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Lightness-Contrast"
+       id="filter1"
+       x="0"
+       y="0"
+       width="1"
+       height="1">
+      <feColorMatrix
+         values="0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0 0 0 1 0 "
+         id="feColorMatrix1"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix2" />
+      <feColorMatrix
+         id="feColorMatrix3"
+         values="0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0.21 0.72 0.072 0 0 0 0 0 1 0 "
+         in="fbSourceGraphic"
+         result="fbSourceGraphic" />
+      <feColorMatrix
+         result="fbSourceGraphicAlpha"
+         in="fbSourceGraphic"
+         values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+         id="feColorMatrix36" />
+      <feColorMatrix
+         id="feColorMatrix37"
+         values="11 0 0 2.64 -5 0 11 0 2.64 -5 0 0 11 2.64 -5 0 0 0 1 0"
+         in="fbSourceGraphic" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     showgrid="false"
+     inkscape:zoom="2.4268879"
+     inkscape:cx="208.49748"
+     inkscape:cy="126.08741"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g1" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g1">
+    <rect
+       style="fill:#ff0000;stroke-width:41.0192"
+       id="rect37"
+       width="468.50125"
+       height="285.13885"
+       x="-11.12536"
+       y="-7.8289566"
+       inkscape:label="nondrivable" />
+    <rect
+       style="fill:#0000ff;stroke-width:87.855"
+       id="rect41"
+       width="40.361698"
+       height="325.4252"
+       x="105.31716"
+       y="-471.14362"
+       inkscape:label="driveway"
+       transform="matrix(-0.17745995,0.98412802,-0.99936054,-0.03575622,0,0)" />
+    <rect
+       style="fill:#0000ff;stroke-width:37.4251"
+       id="rect41-6"
+       width="22.527487"
+       height="105.80374"
+       x="93.405106"
+       y="-149.07953"
+       inkscape:label="driveway"
+       transform="matrix(-0.18549106,0.98264595,-0.98801383,-0.15436539,0,0)" />
+    <rect
+       style="fill:#552200;stroke-width:102.974"
+       id="rect39"
+       width="163.55742"
+       height="134.31952"
+       x="80.234428"
+       y="123.41049"
+       inkscape:label="ground"
+       transform="matrix(0.99634371,0.08543537,0.05027093,0.99873562,0,0)" />
+    <rect
+       style="fill:#552200;stroke-width:102.974"
+       id="rect39-9"
+       width="163.55742"
+       height="134.31952"
+       x="135.5739"
+       y="-31.26856"
+       inkscape:label="ground"
+       transform="matrix(0.99634371,0.08543537,0.05027093,0.99873562,0,0)" />
+    <rect
+       style="fill:#552200;stroke-width:102.974"
+       id="rect39-9-5"
+       width="163.55742"
+       height="134.31952"
+       x="283.48077"
+       y="-23.652504"
+       inkscape:label="ground"
+       transform="matrix(0.99801298,0.0630087,0.07271707,0.99735261,0,0)" />
+    <rect
+       style="fill:#552200;stroke-width:31.267"
+       id="rect40"
+       width="35.743256"
+       height="51.145058"
+       x="143.23505"
+       y="56.155754"
+       inkscape:label="ground"
+       transform="matrix(0.99852359,0.05431981,-0.16088396,0.98697333,0,0)" />
+    <rect
+       style="fill:#552200;stroke-width:102.974"
+       id="rect39-7"
+       width="163.55742"
+       height="134.31952"
+       x="234.00006"
+       y="131.79784"
+       inkscape:label="ground"
+       transform="matrix(0.99848272,0.05506596,0.08065026,0.99674246,0,0)" />
+    <rect
+       style="fill:#552200;stroke-width:102.974"
+       id="rect39-7-8"
+       width="163.55742"
+       height="134.31952"
+       x="338.66415"
+       y="132.11676"
+       inkscape:label="ground"
+       transform="matrix(0.99848272,0.05506596,0.08065026,0.99674246,0,0)" />
+    <rect
+       style="fill:#552200;stroke-width:64.856"
+       id="rect39-7-8-3"
+       width="96.813454"
+       height="90.015747"
+       x="134.31058"
+       y="120.07993"
+       inkscape:label="ground"
+       transform="matrix(0.88138095,0.47240621,-0.25857489,0.96599121,0,0)" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38"
+       width="2.8843524"
+       height="131.03201"
+       x="-87.354675"
+       y="-23.074818"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5"
+       width="2.8843524"
+       height="131.03201"
+       x="296.2525"
+       y="155.17392"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5"
+       width="2.8843524"
+       height="131.03201"
+       x="307.29153"
+       y="155.31781"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4"
+       width="2.8843524"
+       height="131.03201"
+       x="316.47717"
+       y="155.72302"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4"
+       width="2.8843524"
+       height="131.03201"
+       x="325.82895"
+       y="155.70845"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4"
+       width="2.8843524"
+       height="131.03201"
+       x="333.76871"
+       y="156.06511"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5"
+       width="2.8843524"
+       height="131.03201"
+       x="342.5928"
+       y="156.47716"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3"
+       width="2.8843524"
+       height="131.03201"
+       x="351.94461"
+       y="155.77356"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1"
+       width="2.8843524"
+       height="131.03201"
+       x="361.00485"
+       y="156.53741"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5"
+       width="2.8843524"
+       height="131.03201"
+       x="370.00485"
+       y="156.24586"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9"
+       width="2.8843524"
+       height="131.03201"
+       x="377.70847"
+       y="156.0097"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9-2"
+       width="2.8843524"
+       height="131.03201"
+       x="387.4169"
+       y="156.24101"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9-2-9"
+       width="2.8843524"
+       height="131.03201"
+       x="395.76871"
+       y="155.77356"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9-2-9-0"
+       width="2.8843524"
+       height="131.03201"
+       x="405.241"
+       y="156.53741"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9-2-9-0-2"
+       width="2.8843524"
+       height="131.03201"
+       x="413.94461"
+       y="156.36151"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9-2-9-0-2-4"
+       width="2.8843524"
+       height="131.03201"
+       x="423.00485"
+       y="157.88921"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9-2-9-0-2-4-9"
+       width="2.8843524"
+       height="131.03201"
+       x="432.06509"
+       y="157.04568"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:41.0192"
+       id="rect38-5-5-4-4-4-5-3-1-5-9-2-9-0-2-4-9-9"
+       width="2.8843524"
+       height="131.03201"
+       x="441.241"
+       y="157.4169"
+       inkscape:label="grapevines" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1"
+       width="2.8843524"
+       height="130.61996"
+       x="131.01859"
+       y="113.28488"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5"
+       width="2.8843524"
+       height="130.61996"
+       x="173.49802"
+       y="-91.800842"
+       inkscape:label="grapevines"
+       transform="rotate(26.238452)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-7"
+       width="2.8843524"
+       height="130.61996"
+       x="165.04057"
+       y="-144.81531"
+       inkscape:label="grapevines"
+       transform="rotate(26.238452)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-7-1"
+       width="2.8843524"
+       height="130.61996"
+       x="157.29811"
+       y="-143.1801"
+       inkscape:label="grapevines"
+       transform="rotate(26.238452)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-7-1-4"
+       width="2.8843524"
+       height="130.61996"
+       x="150.64644"
+       y="-143.66002"
+       inkscape:label="grapevines"
+       transform="rotate(26.238452)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-7-1-4-9"
+       width="2.8843524"
+       height="130.61996"
+       x="144.17621"
+       y="-144.40923"
+       inkscape:label="grapevines"
+       transform="rotate(26.238452)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6"
+       width="2.8843524"
+       height="130.61996"
+       x="183.04694"
+       y="-94.145012"
+       inkscape:label="grapevines"
+       transform="rotate(26.238452)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6"
+       width="2.8843524"
+       height="130.61996"
+       x="192.07974"
+       y="-100.59788"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6"
+       width="2.8843524"
+       height="130.61996"
+       x="200.97777"
+       y="-104.84874"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8"
+       width="2.8843524"
+       height="130.61996"
+       x="209.37857"
+       y="-109.10503"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1"
+       width="2.8843524"
+       height="130.61996"
+       x="218.02577"
+       y="-112.99767"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1"
+       width="2.8843524"
+       height="130.61996"
+       x="227.28831"
+       y="-116.11069"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4"
+       width="2.8843524"
+       height="130.61996"
+       x="236.42064"
+       y="-119.08247"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5"
+       width="2.8843524"
+       height="130.61996"
+       x="245.55072"
+       y="-122.18895"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6"
+       width="2.8843524"
+       height="130.61996"
+       x="254.58022"
+       y="-126.6204"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5"
+       width="2.8843524"
+       height="130.61996"
+       x="263.66946"
+       y="-130.69725"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0"
+       width="2.8843524"
+       height="130.61996"
+       x="271.64548"
+       y="-133.59383"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9"
+       width="2.8843524"
+       height="130.61996"
+       x="280.57013"
+       y="-137.97615"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3"
+       width="2.8843524"
+       height="130.61996"
+       x="289.85645"
+       y="-141.28342"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5"
+       width="2.8843524"
+       height="130.61996"
+       x="299.08261"
+       y="-144.96701"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5"
+       width="2.8843524"
+       height="130.61996"
+       x="307.3298"
+       y="-148.99646"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4"
+       width="2.8843524"
+       height="130.61996"
+       x="315.75479"
+       y="-151.92307"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0"
+       width="2.8843524"
+       height="130.61996"
+       x="325.05569"
+       y="-155.8439"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0"
+       width="2.8843524"
+       height="130.61996"
+       x="334.45059"
+       y="-160.4657"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6"
+       width="2.8843524"
+       height="130.61996"
+       x="342.92679"
+       y="-163.42444"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2"
+       width="2.8843524"
+       height="130.61996"
+       x="350.42401"
+       y="-166.59865"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1"
+       width="2.8843524"
+       height="130.61996"
+       x="358.59808"
+       y="-171.92134"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0"
+       width="2.8843524"
+       height="130.61996"
+       x="368.21161"
+       y="-174.46989"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8"
+       width="2.8843524"
+       height="130.61996"
+       x="377.14056"
+       y="-178.59367"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6"
+       width="2.8843524"
+       height="130.61996"
+       x="385.71283"
+       y="-182.1295"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6-1"
+       width="2.8843524"
+       height="130.61996"
+       x="393.34473"
+       y="-185.17554"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6-1-0"
+       width="2.8843524"
+       height="130.61996"
+       x="403.95972"
+       y="-190.90291"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6-1-0-0"
+       width="2.8843524"
+       height="130.61996"
+       x="413.85034"
+       y="-195.72588"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6-1-0-0-0"
+       width="2.8843524"
+       height="130.61996"
+       x="422.2131"
+       y="-199.15263"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6-1-0-0-0-7"
+       width="2.8843524"
+       height="130.61996"
+       x="431.16339"
+       y="-203.61621"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6-1-0-0-0-7-7"
+       width="2.8843524"
+       height="130.61996"
+       x="441.31259"
+       y="-208.83469"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-5-6-6-6-8-1-1-4-5-6-5-0-9-3-5-5-4-0-0-6-2-1-0-8-6-1-0-0-0-7-7-3"
+       width="2.8843524"
+       height="130.61996"
+       x="453.26343"
+       y="-214.92365"
+       inkscape:label="grapevines"
+       transform="rotate(27.513649)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2"
+       width="2.8843524"
+       height="130.61996"
+       x="139.42662"
+       y="111.57966"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3"
+       width="2.8843524"
+       height="130.61996"
+       x="148.62773"
+       y="109.31844"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8"
+       width="2.8843524"
+       height="130.61996"
+       x="157.87125"
+       y="107.675"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4"
+       width="2.8843524"
+       height="130.61996"
+       x="166.93846"
+       y="106.49609"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5"
+       width="2.8843524"
+       height="130.61996"
+       x="175.34407"
+       y="105.14188"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5"
+       width="2.8843524"
+       height="130.61996"
+       x="184.07567"
+       y="103.62694"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8"
+       width="2.8843524"
+       height="130.61996"
+       x="191.79605"
+       y="102.20351"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6"
+       width="2.8843524"
+       height="130.61996"
+       x="199.93474"
+       y="100.97894"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1"
+       width="2.8843524"
+       height="130.61996"
+       x="208.91484"
+       y="99.708847"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8"
+       width="2.8843524"
+       height="130.61996"
+       x="218.08267"
+       y="97.748627"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9"
+       width="2.8843524"
+       height="130.61996"
+       x="226.0139"
+       y="95.564354"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8"
+       width="2.8843524"
+       height="130.61996"
+       x="235.71162"
+       y="94.464447"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0"
+       width="2.8843524"
+       height="130.61996"
+       x="244.40208"
+       y="93.028099"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8"
+       width="2.8843524"
+       height="130.61996"
+       x="253.72955"
+       y="90.560516"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2"
+       width="2.8843524"
+       height="130.61996"
+       x="262.81818"
+       y="88.344856"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1"
+       width="2.8843524"
+       height="130.61996"
+       x="271.50153"
+       y="86.421127"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0"
+       width="2.8843524"
+       height="130.61996"
+       x="279.84064"
+       y="84.590599"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0-0"
+       width="2.8843524"
+       height="130.61996"
+       x="288.64862"
+       y="81.107826"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0-0-2"
+       width="2.8843524"
+       height="130.61996"
+       x="297.5639"
+       y="78.694435"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0-0-2-3"
+       width="2.8843524"
+       height="130.61996"
+       x="307.07693"
+       y="76.239044"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0-0-2-3-3"
+       width="2.8843524"
+       height="130.61996"
+       x="315.2034"
+       y="75.20002"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0-0-2-3-3-4"
+       width="2.8843524"
+       height="130.61996"
+       x="325.5174"
+       y="95.511925"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0-0-2-3-3-4-6"
+       width="2.8843524"
+       height="130.61996"
+       x="333.30865"
+       y="123.63888"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+    <rect
+       style="fill:#008000;stroke-width:40.9547"
+       id="rect38-1-2-3-8-4-5-5-8-6-1-8-9-8-0-8-2-1-0-0-2-3-3-4-6-0"
+       width="2.8843524"
+       height="130.61996"
+       x="341.44702"
+       y="160.6837"
+       inkscape:label="grapevines"
+       transform="rotate(15.147096)" />
+  </g>
+</svg>
