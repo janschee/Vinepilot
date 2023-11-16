@@ -35,9 +35,10 @@ class VineyardViewer():
     
     def build(self):
         self.html += "<html><body><h1>VineyardViewer</h1>"
-        for i, frame in enumerate(self.frames): 
+        for i, frame in enumerate(self.frames):
+            frame_address: str = f"http://{self.host_address}:{self.port}/{os.path.relpath(frame, Project.base_dir)}"
             self.html += f"<h3>Frame {i}</h3>"
-            self.html += f'''<img src="file://{frame}" alt="frame_{i}">'''
+            self.html += f'''<img src="{frame_address}" alt="frame_{i}">'''
         self.html += "</body></html>"
 
     class Server(SimpleHTTPRequestHandler):
@@ -46,10 +47,22 @@ class VineyardViewer():
             self.content = ""
 
         def do_GET(self):
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(self.content.encode())
+            if self.path == '/':
+                #Serve html
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(self.content.encode())
+
+            elif self.path.startswith('/vinepilot/'):
+                #Serve data
+                data_path = self.path[1:]
+                with open(data_path, 'rb') as file:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'image/png')
+                    self.end_headers()
+                    self.wfile.write(file.read())
+                
 
     def show(self, vineyard_number: int):
         animator = VineyardAnimator(vineyard_number=vineyard_number)
