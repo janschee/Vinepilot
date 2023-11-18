@@ -2,7 +2,7 @@ import os
 import logging
 import cairosvg
 
-from http.server import SimpleHTTPRequestHandler, HTTPServer
+from flask import Flask, render_template
 from vinepilot.config import Project
 
 
@@ -27,50 +27,17 @@ class VineyardAnimator():
 
 
 class VineyardViewer():
+    app = Flask(__name__)
+
     def __init__(self) -> None:
         self.port: int = Project.port
         self.host_address: str = Project.host_address
-        self.html: str = ""
-        self.frames: list[str] = []
+        self.vineyard_number: int = 0
+
+    @app.route("/")
+    def serve(self, **kwargs):
+        return render_template("./vineyardviewer.html",
+                               vineyardnumber = self.vineyard_number)
     
-    def build(self):
-        self.html += "<html><body><h1>VineyardViewer</h1>"
-        for i, frame in enumerate(self.frames):
-            frame_address: str = f"http://{self.host_address}:{self.port}/{os.path.relpath(frame, Project.base_dir)}"
-            self.html += f"<h3>Frame {i}</h3>"
-            self.html += f'''<img src="{frame_address}" alt="frame_{i}">'''
-        self.html += "</body></html>"
-
-    class Server(SimpleHTTPRequestHandler):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, *kwargs)
-            self.content = ""
-
-        def do_GET(self):
-            if self.path == '/':
-                #Serve html
-                self.send_response(200)
-                self.send_header("Content-type", "text/html")
-                self.end_headers()
-                self.wfile.write(self.content.encode())
-
-            elif self.path.startswith('/vinepilot/'):
-                #Serve data
-                data_path = self.path[1:]
-                with open(data_path, 'rb') as file:
-                    self.send_response(200)
-                    self.send_header('Content-type', 'image/png')
-                    self.end_headers()
-                    self.wfile.write(file.read())
-                
-
-    def show(self, vineyard_number: int):
-        animator = VineyardAnimator(vineyard_number=vineyard_number)
-        self.frames = [frame for frame in animator]
-        self.build()
-        server_address = (self.host_address, self.port)
-        server = self.Server
-        server.content = self.html
-        httpd = HTTPServer(server_address, server)
-        logging.info(f"VineyardViewer is running on https://{self.host_address}:{self.port}.")
-        httpd.serve_forever()
+    def show(self):
+        self.app.run(host=self.host_address, port=self.port, debug=True)
