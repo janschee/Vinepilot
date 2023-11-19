@@ -20,24 +20,26 @@ class VineyardAnimator():
     def __next__(self):
         if self.current < self.limit: 
             self.current += 1
-            cairosvg.svg2png(url=self.svg_path, write_to=self.png_path)
+            cairosvg.svg2png(url=self.svg_path, write_to=self.png_path) #move to utils
             return self.png_path
         else: raise StopIteration
 
 
 
 class VineyardViewer():
-    app = Flask(__name__)
-
     def __init__(self) -> None:
+        #Webapp
         self.port: int = Project.port
         self.host_address: str = Project.host_address
-        self.vineyard_number: int = 0
+        self.app = Flask(__name__, template_folder=os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/app/templates")))
+        self.app.route("/")(self.home)
 
-    @app.route("/")
-    def serve(self, **kwargs):
-        return render_template("./vineyardviewer.html",
-                               vineyardnumber = self.vineyard_number)
+        #Parameters
+        self.vineyard_number: int = 0
     
+    def home(self):
+        return render_template("home.html",
+                            vineyard_number = self.vineyard_number)
+
     def show(self):
         self.app.run(host=self.host_address, port=self.port, debug=True)
