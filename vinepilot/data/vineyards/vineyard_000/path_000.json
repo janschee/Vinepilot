@@ -2,7 +2,7 @@
     "scale": 1,
     "start": null,
     "waypoints": [
-        {"position": null, "rotation": null, "duration": null},
-        {"position": null, "rotation": null, "duration": null}
+        {"position": null, "rotation": null, "frame": null},
+        {"position": null, "rotation": null, "frame": null}
     ]
 }

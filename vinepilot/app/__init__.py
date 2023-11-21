@@ -1,1 +1,0 @@
-from .virtualvineyard import VineyardViewer
