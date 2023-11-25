@@ -18,13 +18,13 @@
 
     <form action="/submit_parameters" method="post">
         <label for="pos_y">Position(Y):</label>
-        <input type="text" id="pos_y" name="pos_y" required>
+        <input type="text" id="pos_y" name="pos_y" value="{{current_pos_y}}" required>
 
         <label for="pos_y">Position(X):</label>
-        <input type="text" id="pos_x" name="pos_x" required>
+        <input type="text" id="pos_x" name="pos_x" value="{{current_pos_x}}" required>
         
         <label for="rotation">Rotation:</label>
-        <input type="text" id="rotation" name="rotation" required>
+        <input type="text" id="rotation" name="rotation" value="{{current_rotation}}" required>
 
         <input type="submit" value="Submit">
     </form>

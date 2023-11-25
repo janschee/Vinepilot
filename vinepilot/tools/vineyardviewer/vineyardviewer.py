@@ -55,6 +55,9 @@ class VineyardViewer():
     def home(self):
         return render_template("home.html",
                             vineyard_number = self.vineyard_number,
+                            current_pos_y = self.position[0],
+                            current_pos_x = self.position[1],
+                            current_rotation = self.rotation,
                             virtual = url_for("load_virtual"))
 
     #Actions
