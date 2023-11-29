@@ -19,8 +19,12 @@ class VineyardViewer():
         #Routes
         self.app.route("/")(self.home)
         self.app.route("/load_virtual")(self.load_virtual)
-        self.app.route("/button_plus100", methods=['POST'])(self.button_plus100)
+        self.app.route("/button_frame_plus_100", methods=['POST'])(self.button_frame_plus_100)
+        self.app.route("/button_frame_minus_100", methods=['POST'])(self.button_frame_minus_100)
+        self.app.route("/button_frame_plus_10", methods=['POST'])(self.button_frame_plus_10)
+        self.app.route("/button_frame_minus_10", methods=['POST'])(self.button_frame_minus_10)
         self.app.route("/submit_parameters", methods=['POST'])(self.submit_parameters)
+        self.app.route("/set_frame", methods=['POST'])(self.set_frame)
 
         #Parameters
         self.vineyard_number: int = 0
@@ -52,10 +56,8 @@ class VineyardViewer():
         self.virtual.seek(0)
         return send_file(self.virtual, mimetype="image/png", as_attachment=True, download_name="virtual.png")
     
-    def switch_frame(self, frame_number = None, step_size = None):
-        assert not bool((frame_number is not None) and (step_size is not None)), "Input either frame_number or step_size, not both!"
-        if frame_number is not None: self.frame = int(frame_number)
-        if step_size is not None: self.frame += int(step_size)
+    def switch_frame(self, step_size):
+        self.frame += int(step_size)
         
 
     #Pages
@@ -79,9 +81,25 @@ class VineyardViewer():
         self.zoom_factor = float(request.form.get("zoom_factor"))
         return self.home()
     
-    def button_next_frame(self):
-        pass
+    def button_frame_plus_100(self):
+        self.switch_frame(step_size=100)
+        return self.home()
 
+    def button_frame_minus_100(self):
+        self.switch_frame(step_size=-100)
+        return self.home()
+
+    def button_frame_plus_10(self):
+        self.switch_frame(step_size=10)
+        return self.home()
+
+    def button_frame_minus_10(self):
+        self.switch_frame(step_size=-10)
+        return self.home()
+    
+    def set_frame(self):
+        self.frame = int(request.form.get("frame"))
+        return self.home()
 
     def show(self):
         self.app.run(host=self.host_address, port=self.port, debug=True)
