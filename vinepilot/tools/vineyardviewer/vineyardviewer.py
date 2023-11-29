@@ -1,4 +1,6 @@
 import os
+import json
+
 from io import BytesIO
 from PIL import Image
 from flask import Flask, render_template, request, send_file, url_for
@@ -36,6 +38,10 @@ class VineyardViewer():
         #Images
         self.virtual = None
 
+        #Database
+        self.vineyards: str = Project.vineyards_dir
+        self.trajectory: dict = json.load(open(os.path.join(self.vineyards, "./vineyard_000/trajectory_000.json"), "r"))
+
     #Tools
     def build_virtual(self):
         test_img: str = "./vinepilot/data/vineyards/vineyard_000/vineyard_000.png"
@@ -58,10 +64,27 @@ class VineyardViewer():
     
     def switch_frame(self, step_size):
         self.frame += int(step_size)
+
+    def update_parameters(self):
+        for waypoint in self.trajectory["waypoints"]:
+            if int(waypoint["frame"]) == self.frame:
+                self.position = waypoint["position"]
+                self.rotation = waypoint["rotation"]
+                break
+
+    def save_parameters(self):
+        for i, waypoint in enumerate(self.trajectory["waypoints"]):
+            if int(waypoint["frame"]) == self.frame:
+                self.trajectory["waypoints"][i]["position"] = self.position
+                self.trajectory["waypoints"][i]["rotation"] = self.position
+                break
         
+        #If frame has no annotations yet
+        #TODO: Generate new entry
 
     #Pages
     def home(self):
+        self.update_parameters()
         return render_template("home.html",
                             vineyard_number = self.vineyard_number,
                             current_pos_y = self.position[0],
@@ -70,11 +93,8 @@ class VineyardViewer():
                             current_zoom_factor = self.zoom_factor,
                             current_frame = self.frame,
                             virtual = url_for("load_virtual"))
+
     #Actions
-    def button_plus100(self):
-        self.vineyard_number += 100
-        return self.home()
-    
     def submit_parameters(self):
         self.position = (float(request.form.get("pos_y")), float(request.form.get("pos_x")))
         self.rotation = float(request.form.get("rotation"))
