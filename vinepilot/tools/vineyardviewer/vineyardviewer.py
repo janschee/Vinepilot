@@ -6,7 +6,7 @@ from PIL import Image
 from flask import Flask, render_template, request, send_file, url_for
 
 from vinepilot.config import Project
-from vinepilot.utils import Transform, load_image_as_numpy
+from vinepilot.utils import Transform, load_image_as_numpy, load_video_frame
 
 
 class VineyardViewer():
@@ -15,6 +15,7 @@ class VineyardViewer():
         self.templates: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/templates")) 
         self.static: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/static")) 
         self.base_img_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.png")) 
+        self.video_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.mp4")) 
         self.trajectory_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/trajectory_000.json"))
 
         #Webapp
@@ -25,6 +26,7 @@ class VineyardViewer():
         #Routes
         self.app.route("/")(self.home)
         self.app.route("/load_virtual")(self.load_virtual)
+        self.app.route("/load_real")(self.load_real)
         self.app.route("/button_frame_plus_100", methods=['POST'])(self.button_frame_plus_100)
         self.app.route("/button_frame_minus_100", methods=['POST'])(self.button_frame_minus_100)
         self.app.route("/button_frame_plus_10", methods=['POST'])(self.button_frame_plus_10)
@@ -42,6 +44,7 @@ class VineyardViewer():
 
         #Images
         self.virtual = None
+        self.real = None
 
         #Database
         with open(self.trajectory_path, "r") as f: self.trajectory = json.load(f)
@@ -57,14 +60,22 @@ class VineyardViewer():
     def load_virtual(self):
         #Get image
         img_arr = self.build_virtual()
+        img_arr = Transform.scale(img_arr, (200, 300))
         img = Image.fromarray(img_arr)
-
-        #Write image to buffer
         self.virtual = BytesIO()
         img.save(self.virtual, "PNG")
         self.virtual.seek(0)
         return send_file(self.virtual, mimetype="image/png", as_attachment=True, download_name="virtual.png")
     
+    def load_real(self):
+        img_arr = load_video_frame(self.video_path, self.frame)
+        img_arr = Transform.scale(img_arr, (200, 300))
+        img = Image.fromarray(img_arr)
+        self.real = BytesIO()
+        img.save(self.real, "PNG")
+        self.real.seek(0)
+        return send_file(self.real, mimetype="image/png", as_attachment=True, download_name="real.png")
+
     def switch_frame(self, step_size):
         self.frame += int(step_size)
 
@@ -95,7 +106,8 @@ class VineyardViewer():
                             current_rotation = self.rotation,
                             current_zoom_factor = self.zoom_factor,
                             current_frame = self.frame,
-                            virtual = url_for("load_virtual"))
+                            virtual = url_for("load_virtual"),
+                            real = url_for("load_real"))
 
     #Actions
     def submit_parameters(self):
