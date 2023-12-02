@@ -1,7 +1,7 @@
 {
     "zoom": 1,
-    "waypoints": [
-        {"position": null, "rotation": null, "frame": null},
-        {"position": null, "rotation": null, "frame": null}
-    ]
+    "waypoints": {
+        "0": {"position": [0,0], "rotation": 0},
+        "10": {"position": [0,0], "rotation": 0}
+    }
 }

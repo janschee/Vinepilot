@@ -1,0 +1,33 @@
+{
+  "zoom": 1.0,
+  "waypoints": {
+    "0": {
+      "position": [
+        0.5,
+        0.5
+      ],
+      "rotation": 0.0
+    },
+    "10": {
+      "position": [
+        0.7,
+        0.7
+      ],
+      "rotation": 0.0
+    },
+    "15": {
+      "position": [
+        0.7,
+        0.3
+      ],
+      "rotation": 0.0
+    },
+    "20": {
+      "position": [
+        0.5,
+        0.3
+      ],
+      "rotation": 0.0
+    }
+  }
+}

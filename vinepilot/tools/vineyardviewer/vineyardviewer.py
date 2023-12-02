@@ -11,11 +11,15 @@ from vinepilot.utils import Transform, load_image_as_numpy
 
 class VineyardViewer():
     def __init__(self) -> None:
+        #Paths
+        self.templates: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/templates")) 
+        self.static: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/static")) 
+        self.base_img_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.png")) 
+        self.trajectory_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/trajectory_000.json"))
+
         #Webapp
         self.port: int = Project.port
         self.host_address: str = Project.host_address
-        self.templates: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/templates")) 
-        self.static: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/static")) 
         self.app = Flask(__name__, template_folder = self.templates, static_folder = self.static)
 
         #Routes
@@ -25,27 +29,26 @@ class VineyardViewer():
         self.app.route("/button_frame_minus_100", methods=['POST'])(self.button_frame_minus_100)
         self.app.route("/button_frame_plus_10", methods=['POST'])(self.button_frame_plus_10)
         self.app.route("/button_frame_minus_10", methods=['POST'])(self.button_frame_minus_10)
+        self.app.route("/button_save", methods=['POST'])(self.button_save)
         self.app.route("/submit_parameters", methods=['POST'])(self.submit_parameters)
         self.app.route("/set_frame", methods=['POST'])(self.set_frame)
 
         #Parameters
         self.vineyard_number: int = 0
-        self.position: tuple = (0,0)
-        self.rotation: float = 0.0
-        self.zoom_factor: float = 1.0
+        self.position: list = None
+        self.rotation: float = None
+        self.zoom_factor: float = None
         self.frame: int = 0
 
         #Images
         self.virtual = None
 
         #Database
-        self.vineyards: str = Project.vineyards_dir
-        self.trajectory: dict = json.load(open(os.path.join(self.vineyards, "./vineyard_000/trajectory_000.json"), "r"))
+        with open(self.trajectory_path, "r") as f: self.trajectory = json.load(f)
 
     #Tools
     def build_virtual(self):
-        test_img: str = "./vinepilot/data/vineyards/vineyard_000/vineyard_000.png"
-        img = load_image_as_numpy(test_img)
+        img = load_image_as_numpy(self.base_img_path)
         img = Transform.new_center(img, self.position)
         img = Transform.rotate(img, self.rotation)
         img = Transform.zoom(img, self.zoom_factor)
@@ -65,26 +68,26 @@ class VineyardViewer():
     def switch_frame(self, step_size):
         self.frame += int(step_size)
 
-    def update_parameters(self):
-        for waypoint in self.trajectory["waypoints"]:
-            if int(waypoint["frame"]) == self.frame:
-                self.position = waypoint["position"]
-                self.rotation = waypoint["rotation"]
-                break
+    def load_parameters(self):
+        self.zoom_factor = self.trajectory["zoom"]
+        if str(self.frame) not in self.trajectory["waypoints"].keys():
+            self.position = [0,0]
+            self.rotation = 0
+            self.trajectory["waypoints"].update({str(self.frame): {}})
+            self.trajectory["waypoints"] = dict(sorted(self.trajectory["waypoints"].items()))
+
+        else:
+            self.position = self.trajectory["waypoints"][str(self.frame)]["position"]
+            self.rotation = self.trajectory["waypoints"][str(self.frame)]["rotation"]
 
     def save_parameters(self):
-        for i, waypoint in enumerate(self.trajectory["waypoints"]):
-            if int(waypoint["frame"]) == self.frame:
-                self.trajectory["waypoints"][i]["position"] = self.position
-                self.trajectory["waypoints"][i]["rotation"] = self.position
-                break
-        
-        #If frame has no annotations yet
-        #TODO: Generate new entry
+        self.trajectory["zoom"] = self.zoom_factor
+        self.trajectory["waypoints"][str(self.frame)]["position"] = self.position
+        self.trajectory["waypoints"][str(self.frame)]["rotation"] = self.rotation
 
     #Pages
     def home(self):
-        self.update_parameters()
+        self.load_parameters()
         return render_template("home.html",
                             vineyard_number = self.vineyard_number,
                             current_pos_y = self.position[0],
@@ -96,11 +99,17 @@ class VineyardViewer():
 
     #Actions
     def submit_parameters(self):
-        self.position = (float(request.form.get("pos_y")), float(request.form.get("pos_x")))
+        self.position = [float(request.form.get("pos_y")), float(request.form.get("pos_x"))]
         self.rotation = float(request.form.get("rotation"))
         self.zoom_factor = float(request.form.get("zoom_factor"))
+        self.save_parameters()
+        #self.app.logger.debug(str(self.trajectory))
         return self.home()
     
+    def set_frame(self):
+        self.frame = int(request.form.get("frame"))
+        return self.home()
+
     def button_frame_plus_100(self):
         self.switch_frame(step_size=100)
         return self.home()
@@ -117,8 +126,10 @@ class VineyardViewer():
         self.switch_frame(step_size=-10)
         return self.home()
     
-    def set_frame(self):
-        self.frame = int(request.form.get("frame"))
+    def button_save(self):
+        test_target = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/new_trajectory_000.json"))
+        with open(test_target, "w") as f: json.dump(self.trajectory, f, indent=2)
+        self.app.logger.info("File saved!")
         return self.home()
 
     def show(self):
