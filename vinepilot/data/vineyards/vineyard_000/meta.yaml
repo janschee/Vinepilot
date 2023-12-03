@@ -1,0 +1,4 @@
+camera:
+  type: "iPhone XR"
+  focal_length: 26 #[mm]
+  sensor_size: 9.96 #[mm] or 1/2.55" (Inch)

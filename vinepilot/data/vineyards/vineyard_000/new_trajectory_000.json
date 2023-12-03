@@ -3,31 +3,52 @@
   "waypoints": {
     "0": {
       "position": [
+        0,
+        0
+      ],
+      "rotation": 0
+    },
+    "10": {
+      "position": [
         0.5,
         0.5
       ],
       "rotation": 0.0
     },
-    "10": {
+    "100": {
+      "position": [
+        0,
+        0
+      ],
+      "rotation": 0
+    },
+    "20": {
       "position": [
         0.7,
         0.7
       ],
       "rotation": 0.0
     },
-    "15": {
+    "200": {
       "position": [
-        0.7,
-        0.3
+        0,
+        0
       ],
-      "rotation": 0.0
+      "rotation": 0
     },
-    "20": {
+    "300": {
       "position": [
-        0.5,
-        0.3
+        0,
+        0
       ],
-      "rotation": 0.0
+      "rotation": 0
+    },
+    "400": {
+      "position": [
+        0,
+        0
+      ],
+      "rotation": 0
     }
   }
 }

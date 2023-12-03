@@ -5,8 +5,8 @@ from io import BytesIO
 from PIL import Image
 from flask import Flask, render_template, request, send_file, url_for
 
+from vinepilot.model.data import VinePilotSegmentationDataset
 from vinepilot.config import Project
-from vinepilot.utils import Transform, load_image_as_numpy, load_video_frame
 
 
 class VineyardViewer():
@@ -14,8 +14,6 @@ class VineyardViewer():
         #Paths
         self.templates: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/templates")) 
         self.static: str = os.path.normpath(os.path.join(Project.base_dir, "./vinepilot/tools/vineyardviewer/static")) 
-        self.base_img_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.png")) 
-        self.video_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.mp4")) 
         self.trajectory_path = os.path.abspath(os.path.join(Project.vineyards_dir, "./vineyard_000/trajectory_000.json"))
 
         #Webapp
@@ -48,19 +46,12 @@ class VineyardViewer():
 
         #Database
         with open(self.trajectory_path, "r") as f: self.trajectory = json.load(f)
+        self.dataset = VinePilotSegmentationDataset()
 
     #Tools
-    def build_virtual(self):
-        img = load_image_as_numpy(self.base_img_path)
-        img = Transform.new_center(img, self.position)
-        img = Transform.rotate(img, self.rotation)
-        img = Transform.zoom(img, self.zoom_factor)
-        return img
-
     def load_virtual(self):
         #Get image
-        img_arr = self.build_virtual()
-        img_arr = Transform.scale(img_arr, (200, 300))
+        _, img_arr = self.dataset.get_item_by_frame(self.frame)
         img = Image.fromarray(img_arr)
         self.virtual = BytesIO()
         img.save(self.virtual, "PNG")
@@ -68,8 +59,7 @@ class VineyardViewer():
         return send_file(self.virtual, mimetype="image/png", as_attachment=True, download_name="virtual.png")
     
     def load_real(self):
-        img_arr = load_video_frame(self.video_path, self.frame)
-        img_arr = Transform.scale(img_arr, (200, 300))
+        img_arr, _ = self.dataset.get_item_by_frame(self.frame)
         img = Image.fromarray(img_arr)
         self.real = BytesIO()
         img.save(self.real, "PNG")
@@ -84,17 +74,20 @@ class VineyardViewer():
         if str(self.frame) not in self.trajectory["waypoints"].keys():
             self.position = [0,0]
             self.rotation = 0
-            self.trajectory["waypoints"].update({str(self.frame): {}})
+            self.trajectory["waypoints"].update({str(self.frame): {"position": [0,0], "rotation": 0}})
             self.trajectory["waypoints"] = dict(sorted(self.trajectory["waypoints"].items()))
 
         else:
             self.position = self.trajectory["waypoints"][str(self.frame)]["position"]
             self.rotation = self.trajectory["waypoints"][str(self.frame)]["rotation"]
 
+        self.dataset.overwrite_trajectory(new_trajectory=self.trajectory)
+
     def save_parameters(self):
         self.trajectory["zoom"] = self.zoom_factor
         self.trajectory["waypoints"][str(self.frame)]["position"] = self.position
         self.trajectory["waypoints"][str(self.frame)]["rotation"] = self.rotation
+        self.dataset.overwrite_trajectory(new_trajectory=self.trajectory)
 
     #Pages
     def home(self):

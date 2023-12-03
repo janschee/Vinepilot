@@ -38,6 +38,19 @@ class Transform():
         new_img = Transform.scale(new_img, shape=tuple(img_shape_2D))
         return new_img.astype(np.uint8)
 
+    @staticmethod
+    def crop_to_square(img: np.ndarray) -> np.ndarray:
+        img_shape_2D: np.ndarray = np.array(img.shape)[:2]
+        assert img_shape_2D[0] != img_shape_2D[1], "Image already has square format!"
+        crop_amount: int = abs(img_shape_2D[0]-img_shape_2D[1]) // 2
+        if img_shape_2D[1] > img_shape_2D[0]: res: np.ndarray = img[:, crop_amount:(img_shape_2D[1]-crop_amount), :]
+        else: res: np.ndarray = img[crop_amount:(img_shape_2D[0]-crop_amount), :, :]
+        return res.astype(np.uint8)
+
+
+
+
+
 
 
 

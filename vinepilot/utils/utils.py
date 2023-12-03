@@ -1,4 +1,5 @@
 import logging
+import math
 
 from PIL import Image
 import numpy as np
@@ -21,5 +22,9 @@ def load_video_frame(video_path: str, frame: int) -> np.ndarray:
     data = cv2.cvtColor(data, cv2.COLOR_BGR2RGB)
     return np.array(data)
 
+def camera_angle_of_view(focal_length: float, sensor_size: float) -> float:
+    angle_rad: float =  2 * math.atan(sensor_size/(2*focal_length))
+    angle_deg: float = math.degrees(angle_rad)
+    return  2 * angle_deg * (1920/1080)
 
 
