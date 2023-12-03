@@ -3,6 +3,8 @@ import logging
 import json
 import torch
 
+import numpy as np
+
 from PIL import Image
 from torchvision import transforms
 
@@ -26,7 +28,7 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
     def overwrite_trajectory(self, new_trajectory: dict) -> None:
         self.trajectory = new_trajectory
 
-    def get_item_by_frame(self, frame: int):
+    def get_item_by_frame(self, frame: int) -> tuple[np.ndarray, np.ndarray]:
         #Parameters
         zoom_factor: float = self.trajectory["zoom"]
         y_pos: float = self.trajectory["waypoints"][str(frame)]["position"][0]
@@ -40,6 +42,14 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
         vimg = Transform.zoom(vimg, zoom_factor)
         vimg = Transform.crop_to_square(vimg)
         vimg = Transform.scale(vimg, (256, 256))
+
+        #Create Mask
+        #TODO: Fix mask!
+        mask = np.zeros_like(vimg)
+        for i in range(256): 
+            for j in range(256): 
+                if j <= i and j <= 255 - i: mask[i,j] = [1,1,1]
+        vimg = vimg * mask
 
         #Real Image
         rimg = load_video_frame(video_path=self.video_path, frame=frame)
