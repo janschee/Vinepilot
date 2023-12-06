@@ -44,11 +44,9 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
         vimg = Transform.scale(vimg, (256, 256))
 
         #Create Mask
-        #TODO: Fix mask!
         mask = np.zeros_like(vimg)
-        for i in range(256): 
-            for j in range(256): 
-                if j <= i and j <= 255 - i: mask[i,j] = [1,1,1]
+        for i in range(mask.shape[0]):
+            for j in range(int(i/2), mask.shape[1] - int(i/2)): mask[i][j] = [1,1,1]
         vimg = vimg * mask
 
         #Real Image
