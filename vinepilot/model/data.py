@@ -41,7 +41,7 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
         vimg = Transform.rotate(vimg, rotation)
         vimg = Transform.zoom(vimg, zoom_factor)
         vimg = Transform.crop_to_square(vimg)
-        vimg = Transform.scale(vimg, (256, 256))
+        vimg = Transform.scale(vimg, (100, 100))
 
         #Create Mask
         mask = np.zeros_like(vimg)
