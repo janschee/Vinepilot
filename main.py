@@ -4,8 +4,25 @@
 #viewer = VineyardViewer()
 #viewer.show()
 
+import os
 from vinepilot.tools.autoseg import AutoSeg
+from vinepilot.config import Project
+from vinepilot.utils import load_video_frame, save_numpy_image, Transform
+
+test_video = os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.mp4")
+target_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target_000.png")
+target2_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target2_000.png")
+
+autoseg = AutoSeg()
+img = load_video_frame(test_video, frame=0)
+img = Transform.scale(img, (200,300))
+save_numpy_image(img, target2_img)
+
+img = autoseg.rgb2lab(img)
+img = autoseg.normalize_luminace(img, L_value=100)
+img = autoseg.lab2rgb(img)
+
+save_numpy_image(img, target_img)
 
 
 
-#from vinepilot.utils import Transform, load_image_as_numpy, save_numpy_image
