@@ -16,13 +16,13 @@ target2_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target2_000.pn
 autoseg = AutoSeg()
 img = load_video_frame(test_video, frame=0)
 img = Transform.scale(img, (200,300))
-save_numpy_image(img, target2_img)
 
-img = autoseg.rgb2lab(img)
-img = autoseg.normalize_luminace(img, L_value=100)
-img = autoseg.lab2rgb(img)
+labimg = autoseg.rgb2lab(img)
+labimg = autoseg.normalize_luminace(labimg)
+labimg = autoseg.lab2rgb(labimg)
+save_numpy_image(labimg, target2_img)
+
+img = autoseg(img)
 
 save_numpy_image(img, target_img)
-
-
 
