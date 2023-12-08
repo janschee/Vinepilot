@@ -6,17 +6,21 @@ from vinepilot.config import Project
 
 class AutoSeg():
     def __init__(self) -> None:
+        #Parameters
+        self.threshold = 45
+        
+        #Classes
         self.classes: dict = {
-            #Drivable Area
+            #Drivable Area (Lab colors)
             "drivable": {
                 #"dirt": [(111,89,66)],
-                "grass": [(0,100,0)],
-                #"asphalt": [(107,84,94)]
+                "grass": (57, -58, 58),
+                #"asphalt": (59, 9, -6)
             },
 
-            #Grapevines
+            #Grapevines (Lab colors)
             "grapevine": {
-                "leaves": [(100,0,0)],
+                "leaves": (54, 31, 56),
                 #"trunk": [(83,94,105)],
                 #"trellis": [(81,94,103)]
             }
@@ -35,7 +39,19 @@ class AutoSeg():
     @staticmethod
     def lab2rgb(img: np.ndarray) -> np.ndarray:
         return np.array(cv2.cvtColor(img, cv2.COLOR_Lab2RGB))
-
+    
+    @staticmethod
+    def normalize_lab(img: np.ndarray) -> np.ndarray:
+        nimg: np.ndarray = np.zeros_like(img, dtype=int)
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                l, a, b = img[i][j]
+                l = int(l * 100/255)
+                a = a - 128
+                b = b - 128
+                nimg[i][j] = [l,a,b]
+        return np.array(nimg)
+        
     @staticmethod
     def normalize_luminace(lab_img: np.ndarray, L_value: int = 100) -> np.ndarray:
         img: np.ndarray = lab_img
@@ -43,14 +59,14 @@ class AutoSeg():
         return np.array(img)
     
     @staticmethod
-    def rgb_color_distance(rgb1: tuple, rgb2: tuple) -> float:
-        return np.linalg.norm(abs(np.array(rgb1)-np.array(rgb2)))
+    def lab_color_distance(lab1: tuple, lab2: tuple) -> float:
+        return np.linalg.norm(abs(np.array(lab1)[1:]-np.array(lab2)[1:]))
     
     def classify_pixel(self, pxl: tuple, threshold: float) -> str | None:
         distances: list[str, float] = []
         for parent_class in self.classes:
             for sub_class in self.classes[parent_class]:
-                distances.append([parent_class, self.rgb_color_distance(pxl, self.classes[parent_class][sub_class])])
+                distances.append([parent_class, self.lab_color_distance(pxl, self.classes[parent_class][sub_class])])
         min_class, min_dist = min(distances, key=lambda x: x[1])
         if min_dist > threshold: return None
         return str(min_class)
@@ -58,16 +74,18 @@ class AutoSeg():
     def __call__(self, img: np.ndarray) -> np.ndarray:
         #Normalize luminance
         x = self.rgb2lab(img)
+        x = self.normalize_lab(x)
         x = self.normalize_luminace(x)
-        x = self.lab2rgb(x)
 
         #Segmentation
         segimg: np.ndarray = np.zeros_like(img)
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
-                pred_class: str | None = self.classify_pixel(img[i][j], threshold=100)
+                pred_class: str | None = self.classify_pixel(x[i][j], threshold=self.threshold)
                 segimg[i][j] = self.colors[pred_class] if pred_class is not None else self.colors["none"]
         return np.array(segimg)
+    
+        #TODO: NN-Interpolation / Max Pool
 
 
 
