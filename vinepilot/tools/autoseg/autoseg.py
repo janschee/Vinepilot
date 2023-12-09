@@ -6,29 +6,32 @@ from vinepilot.config import Project
 
 class AutoSeg():
     def __init__(self) -> None:
-        #Parameters
-        self.threshold = 45
         
-        #Classes
+        #Classes (Lab colors)
         self.classes: dict = {
-            #Drivable Area (Lab colors)
-            "drivable": {
+            #Track
+            "track": {
                 #"dirt": [(111,89,66)],
-                "grass": (57, -58, 58),
-                #"asphalt": (59, 9, -6)
+                "grass": [(57, -58, 58), 60],
             },
 
-            #Grapevines (Lab colors)
+            #Grapevines
             "grapevine": {
-                "leaves": (54, 31, 56),
+                "leaves": [(54, 31, 56), 45],
                 #"trunk": [(83,94,105)],
                 #"trellis": [(81,94,103)]
+            },
+
+            #Driveway
+            "driveway": {
+                "asphalt": [(44, 12, -2), 10],
             }
         }
 
         self.colors: dict = {
-            "drivable": (0,0,255),
+            "track": (0,0,255),
             "grapevine": (0,255,0),
+            "driveway": (0, 100, 100),
             "none": (0,0,0)
         }
 
@@ -59,17 +62,33 @@ class AutoSeg():
         return np.array(img)
     
     @staticmethod
+    def median_filter(img: np.ndarray, size: int = 7) -> np.ndarray:
+        return np.array(cv2.medianBlur(img, ksize = size))
+    
+    @staticmethod
     def lab_color_distance(lab1: tuple, lab2: tuple) -> float:
         return np.linalg.norm(abs(np.array(lab1)[1:]-np.array(lab2)[1:]))
     
-    def classify_pixel(self, pxl: tuple, threshold: float) -> str | None:
-        distances: list[str, float] = []
+    def classify_pixel(self, pxl: tuple) -> str | None:
+        distances: list[str, float, int] = []
         for parent_class in self.classes:
             for sub_class in self.classes[parent_class]:
-                distances.append([parent_class, self.lab_color_distance(pxl, self.classes[parent_class][sub_class])])
-        min_class, min_dist = min(distances, key=lambda x: x[1])
-        if min_dist > threshold: return None
-        return str(min_class)
+                lab, threshold = self.classes[parent_class][sub_class]
+                distances.append([parent_class, self.lab_color_distance(pxl, lab), threshold])
+        distances = sorted(distances, key=lambda x: x[1])
+        for dist in distances:
+            min_class, min_dist, min_threshold = dist
+            if min_dist < min_threshold: return str(min_class)
+        return None
+    
+    def segmentation(self, img: np.ndarray) -> np.ndarray:
+        segimg: np.ndarray = np.zeros_like(img)
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                pred_class: str | None = self.classify_pixel(img[i][j])
+                segimg[i][j] = self.colors[pred_class] if pred_class is not None else self.colors["none"]
+        return np.array(segimg).astype(np.uint8)
+
     
     def __call__(self, img: np.ndarray) -> np.ndarray:
         #Normalize luminance
@@ -78,14 +97,11 @@ class AutoSeg():
         x = self.normalize_luminace(x)
 
         #Segmentation
-        segimg: np.ndarray = np.zeros_like(img)
-        for i in range(img.shape[0]):
-            for j in range(img.shape[1]):
-                pred_class: str | None = self.classify_pixel(x[i][j], threshold=self.threshold)
-                segimg[i][j] = self.colors[pred_class] if pred_class is not None else self.colors["none"]
-        return np.array(segimg)
-    
-        #TODO: NN-Interpolation / Max Pool
+        x = self.segmentation(x)
+
+        #Filter
+        x = self.median_filter(x)
+        return np.array(x)
 
 
 
