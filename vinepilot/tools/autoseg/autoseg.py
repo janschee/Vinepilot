@@ -12,7 +12,7 @@ class AutoSeg():
             #Track
             "track": {
                 #"dirt": [(111,89,66)],
-                "grass": [(57, -58, 58), 60],
+                "grass": [(57, -58, 58), 65],
             },
 
             #Grapevines
@@ -101,6 +101,11 @@ class AutoSeg():
 
         #Filter
         x = self.median_filter(x)
+        x = self.median_filter(x)
+        
+        #TODO: Fix dark green and dark blue color regions in result image
+        for row in x: print(row)
+        
         return np.array(x)
 
 
