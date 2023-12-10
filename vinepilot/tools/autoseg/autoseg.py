@@ -73,7 +73,6 @@ class AutoSeg():
     @staticmethod
     def median_filter(img: np.ndarray, size: int = 7) -> np.ndarray:
         return np.array(cv2.medianBlur(img, ksize = size))
-        #return np.array(median_filter(img, size=size))
 
     @staticmethod
     def lab_color_distance(lab1: tuple, lab2: tuple) -> float:
@@ -135,7 +134,7 @@ class AutoSeg():
         #Segmentation
         x = self.segmentation(x)
 
-        #Filter
+        #Classwise Filter
         x = self.classwise_median_filter(x, iterations=2)
         
         #Overlay

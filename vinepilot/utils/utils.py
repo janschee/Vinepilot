@@ -20,7 +20,14 @@ def load_video_frame(video_path: str, frame: int) -> np.ndarray:
     valid, data = cap.read()
     assert valid, "Unable to read frame!"
     data = cv2.cvtColor(data, cv2.COLOR_BGR2RGB)
+    cap.release()
     return np.array(data)
+
+def total_video_frames(video_path: str) -> int:
+    cap = cv2.VideoCapture(video_path)
+    assert cap.isOpened(), "Could not open video file!"
+    return int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
 
 def camera_angle_of_view(focal_length: float, sensor_size: float) -> float:
     angle_rad: float =  2 * math.atan(sensor_size/(2*focal_length))

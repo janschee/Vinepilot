@@ -5,7 +5,7 @@ from io import BytesIO
 from PIL import Image
 from flask import Flask, render_template, request, send_file, url_for
 
-from vinepilot.model.data import VinePilotSegmentationDataset
+#from vinepilot.model.data import VinePilotSegmentationDataset #Circular import
 from vinepilot.config import Project
 
 
