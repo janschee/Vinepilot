@@ -17,12 +17,9 @@ autoseg = AutoSeg()
 img = load_video_frame(test_video, frame=0)
 img = Transform.scale(img, (200,300))
 
-labimg = autoseg.rgb2lab(img)
-labimg = autoseg.normalize_luminace(labimg)
-labimg = autoseg.lab2rgb(labimg)
-save_numpy_image(labimg, target2_img)
 
-img = autoseg(img)
+seg, overlay = autoseg(img)
 
-save_numpy_image(img, target_img)
+save_numpy_image(seg, target_img)
+save_numpy_image(overlay, target2_img)
 

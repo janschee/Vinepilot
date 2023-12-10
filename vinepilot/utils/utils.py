@@ -27,4 +27,6 @@ def camera_angle_of_view(focal_length: float, sensor_size: float) -> float:
     angle_deg: float = math.degrees(angle_rad)
     return  2 * angle_deg * (1920/1080)
 
+    
+
 
