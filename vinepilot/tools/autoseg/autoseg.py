@@ -12,19 +12,23 @@ class AutoSeg():
             #Track
             "track": {
                 #"dirt": [(111,89,66)],
-                "grass": [(57, -58, 58), 65],
+                "grass": [(57, -58, 58), 65], #Lab
+                #"grass": [(29, 159, 4), 100], #rgb
+
             },
 
             #Grapevines
             "grapevine": {
-                "leaves": [(54, 31, 56), 45],
+                "leaves": [(54, 31, 56), 50], #Lab
+                #"leaves": [(196, 105, 18), 100], #rgb
                 #"trunk": [(83,94,105)],
                 #"trellis": [(81,94,103)]
             },
 
             #Driveway
             "driveway": {
-                "asphalt": [(44, 12, -2), 12],
+                "asphalt": [(44, 12, -2), 13], #lab
+                #"asphalt": [(122, 97, 108), 35], #rgb
             }
         }
 
@@ -78,12 +82,27 @@ class AutoSeg():
     def lab_color_distance(lab1: tuple, lab2: tuple) -> float:
         return np.linalg.norm(abs(np.array(lab1)[1:]-np.array(lab2)[1:]))
     
-    def classify_pixel(self, pxl: tuple) -> str | None:
+    @staticmethod
+    def rgb_color_distance(rgb1: tuple, rgb2: tuple) -> float:
+        return np.linalg.norm(abs(np.array(rgb1)-np.array(rgb2)))
+
+    @staticmethod
+    def area_size_filter(img: np.ndarray, threshold_area: int = 500):
+        fimg: np.ndarray = img.copy()
+        grayscale: np.ndarray = np.array(cv2.cvtColor(img, cv2.COLOR_RGB2GRAY))
+        _, binary_mask = cv2.threshold(grayscale, 1, 255, cv2.THRESH_BINARY)
+        contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        for con in contours:
+            if cv2.contourArea(con) < threshold_area:
+                cv2.drawContours(fimg, [con], 0, (0, 0, 0), thickness=cv2.FILLED)
+        return np.array(fimg)
+
+    def classify_pixel(self, pxl: tuple, dist_function: callable) -> str | None:
         distances: list[str, float, int] = []
         for parent_class in self.classes:
             for sub_class in self.classes[parent_class]:
                 lab, threshold = self.classes[parent_class][sub_class]
-                distances.append([parent_class, self.lab_color_distance(pxl, lab), threshold])
+                distances.append([parent_class, dist_function(pxl, lab), threshold])
         distances = sorted(distances, key=lambda x: x[1])
         for dist in distances:
             min_class, min_dist, min_threshold = dist
@@ -94,11 +113,12 @@ class AutoSeg():
         segimg: np.ndarray = np.zeros_like(img)
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
-                pred_class: str | None = self.classify_pixel(img[i][j])
+                pred_class: str | None = self.classify_pixel(img[i][j], dist_function=self.lab_color_distance)
                 segimg[i][j] = self.target_classes[pred_class] if pred_class is not None else self.target_classes["none"]
         return np.array(segimg).astype(np.uint8)
 
-    def classwise_median_filter(self, img: np.ndarray, iterations: int, size: int = 7) -> np.ndarray:
+    def classwise_filter(self, img: np.ndarray, filters: list) -> np.ndarray:
+        #Init
         class_names: list = []
         class_values: list = []
         class_simgs: list = []
@@ -106,13 +126,16 @@ class AutoSeg():
             class_names.append(key)
             class_values.append(value)
             class_simgs.append(np.zeros_like(img))
+        #Split classes
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
                 pxl = img[i][j]
                 for idx, value in enumerate(class_values): 
                     if np.array_equal(pxl, value):
                         class_simgs[idx][i][j] = pxl
-        for _ in range(iterations): class_simgs = [self.median_filter(i, size=size) for i in class_simgs]
+        #Filtering
+        for filter in filters: class_simgs = [filter(i) for i in class_simgs]
+        #Recombine classes
         fimg: np.ndarray = np.zeros_like(img)
         for simg in class_simgs: fimg = np.add(fimg, simg)
         return np.array(fimg)
@@ -135,8 +158,14 @@ class AutoSeg():
         x = self.segmentation(x)
 
         #Classwise Filter
-        x = self.classwise_median_filter(x, iterations=2)
-        
+        x = self.classwise_filter(x, filters=[
+            self.median_filter,
+            self.median_filter,
+            self.area_size_filter,
+            self.median_filter,
+            self.median_filter,
+        ])
+
         #Overlay
         overlay = cv2.addWeighted(img, 0.5, x, 0.5, 0)
         

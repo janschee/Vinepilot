@@ -5,6 +5,7 @@
 #viewer.show()
 
 import os
+import time
 from vinepilot.config import Project
 from vinepilot.utils import save_numpy_image
 from vinepilot.model.data import VinePilotSegmentationDataset
@@ -15,8 +16,10 @@ target2_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target2_000.pn
 
 dataset = VinePilotSegmentationDataset()
 
-frame, segimg = dataset.__getitem__(0)
-
-save_numpy_image(frame, target_img)
-save_numpy_image(segimg, target2_img)
+for i in range(0, dataset.__len__(), 100): 
+    print("Freame:", i, "\n")
+    frame, segimg = dataset.__getitem__(i)
+    save_numpy_image(frame, target_img)
+    save_numpy_image(segimg, target2_img)
+    time.sleep(2)
 
