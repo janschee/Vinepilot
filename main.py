@@ -1,4 +1,4 @@
-#!/home/jan/documents/Vinepilot/venv/bin/python
+#!/home/jan/Documents/Vinepilot/venv/bin/python
 
 #from vinepilot.tools import VineyardViewer
 #viewer = VineyardViewer()

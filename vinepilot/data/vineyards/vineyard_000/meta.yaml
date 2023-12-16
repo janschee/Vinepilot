@@ -1,3 +1,6 @@
+gdown:
+  file_name: "vineyard_000.mp4"
+  file_url: "https://drive.google.com/file/d/1WvGu8G3OLy4WEfaXBM4ttOd7hpx5TQ8d/view?usp=sharing"
 camera:
   type: "iPhone XR"
   focal_length: 26 #[mm]

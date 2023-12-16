@@ -34,10 +34,10 @@ class AutoSeg():
 
         #Segmentation colors (RGB format)
         self.target_classes: dict = {
-            "track": (0,0,255),
-            "grapevine": (0,255,0),
-            "driveway": (0, 100, 100),
-            "none": (0,0,0)
+            "track": {"id": 10, "color": (0,0,255)},
+            "grapevine": {"id": 10, "color": (0,255,0)},
+            "driveway": {"id": 10, "color": (0,100,100)},
+            "none": {"id": 0, "color": (0,0,0)}
         }
 
     @staticmethod
@@ -85,7 +85,7 @@ class AutoSeg():
     @staticmethod
     def rgb_color_distance(rgb1: tuple, rgb2: tuple) -> float:
         return np.linalg.norm(abs(np.array(rgb1)-np.array(rgb2)))
-
+    
     @staticmethod
     def area_size_filter(img: np.ndarray, threshold_area: int = 500):
         fimg: np.ndarray = img.copy()
@@ -96,6 +96,7 @@ class AutoSeg():
             if cv2.contourArea(con) < threshold_area:
                 cv2.drawContours(fimg, [con], 0, (0, 0, 0), thickness=cv2.FILLED)
         return np.array(fimg)
+
 
     def classify_pixel(self, pxl: tuple, dist_function: callable) -> str | None:
         distances: list[str, float, int] = []
@@ -109,13 +110,13 @@ class AutoSeg():
             if min_dist < min_threshold: return str(min_class)
         return None
     
-    def segmentation(self, img: np.ndarray) -> np.ndarray:
-        segimg: np.ndarray = np.zeros_like(img)
+    def segmentation(self, img: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        segimg_rgb: np.ndarray = np.zeros_like(img)
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
                 pred_class: str | None = self.classify_pixel(img[i][j], dist_function=self.lab_color_distance)
-                segimg[i][j] = self.target_classes[pred_class] if pred_class is not None else self.target_classes["none"]
-        return np.array(segimg).astype(np.uint8)
+                segimg_rgb[i][j] = self.target_classes[pred_class]["color"] if pred_class is not None else self.target_classes["none"]["color"]
+        return np.array(segimg_rgb).astype(np.uint8)
 
     def classwise_filter(self, img: np.ndarray, filters: list) -> np.ndarray:
         #Init
@@ -124,7 +125,7 @@ class AutoSeg():
         class_simgs: list = []
         for key, value in self.target_classes.items(): 
             class_names.append(key)
-            class_values.append(value)
+            class_values.append(value["color"])
             class_simgs.append(np.zeros_like(img))
         #Split classes
         for i in range(img.shape[0]):

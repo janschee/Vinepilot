@@ -1,15 +1,13 @@
 import logging 
 
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
-    size: int = len(dataloader.dataset)
     model.train()
     for epoch in range(num_epochs):
-        for batch, (image_tensor, label, valid) in enumerate(dataloader):
-            if not valid: continue
+        for batch, (img, segimg) in enumerate(dataloader):
 
             #Forward
-            predictions: list = model(image_tensor)
-            loss = loss_fn(predictions, label)
+            predictions: list = model(img)
+            loss = loss_fn(predictions, segimg)
 
             #Backward
             loss.backward()

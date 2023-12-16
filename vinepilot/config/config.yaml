@@ -9,8 +9,8 @@ train:
   epochs: 3
   shuffle: False
   optimizer: "adam"
-  learning_rate: 0.001
   loss: "mse"
+  learning_rate: 0.001
 test:
 server:
   host_address: "192.168.114.132"
