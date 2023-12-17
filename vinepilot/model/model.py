@@ -12,11 +12,9 @@ class SegmantationModel(torch.nn.Module):
         self.relu = torch.nn.ReLU()   
 
     def forward(self, input):
-        x = input
-
         #Convert to Grayscale
         grayscale = torchvision.transforms.Grayscale(num_output_channels=1)
-        x = grayscale(x)
+        x = torch.stack([grayscale(x) for x in input])
 
         #Encoder
         x = self.convDOWN(x)

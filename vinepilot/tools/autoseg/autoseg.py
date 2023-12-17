@@ -111,6 +111,7 @@ class AutoSeg():
         return None
     
     def segmentation(self, img: np.ndarray) -> np.ndarray:
+        #TODO: Generate 1D id segmentation image first and convert to rgb later.
         segimg_rgb: np.ndarray = np.zeros_like(img)
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
@@ -148,7 +149,7 @@ class AutoSeg():
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
                 idimg[i][j] = int(ids[[np.array_equal(img[i][j], color) for color in colors].index(True)])
-        return np.array(idimg)
+        return np.array(idimg).astype(np.uint8)
     
     def __call__(self, img: np.ndarray) -> np.ndarray:
         #RGB2LAB

@@ -1,12 +1,8 @@
 import os
 import logging
-import json
 import torch
 
 import numpy as np
-
-from PIL import Image
-from torchvision import transforms
 
 from vinepilot.config import Project
 from vinepilot.tools import AutoSeg
@@ -31,6 +27,6 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx: int):
         frame: np.ndarray = load_video_frame(self.video_path, frame=idx)
         frame = Transform.scale(frame, self.input_resolution)
-        segimg, _ = self.autoseg(frame)
-        return np.array(frame), np.array(segimg)
+        _, seglin = self.autoseg(frame)
+        return torch.Tensor(frame), torch.Tensor(seglin)
         
