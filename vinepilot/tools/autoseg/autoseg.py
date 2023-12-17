@@ -34,9 +34,9 @@ class AutoSeg():
 
         #Segmentation colors (RGB format)
         self.target_classes: dict = {
-            "track": {"id": 10, "color": (0,0,255)},
-            "grapevine": {"id": 10, "color": (0,255,0)},
-            "driveway": {"id": 10, "color": (0,100,100)},
+            "track": {"id": 100, "color": (0,0,255)},
+            "grapevine": {"id": 200, "color": (0,255,0)},
+            "driveway": {"id": 150, "color": (0,100,100)},
             "none": {"id": 0, "color": (0,0,0)}
         }
 
@@ -110,7 +110,7 @@ class AutoSeg():
             if min_dist < min_threshold: return str(min_class)
         return None
     
-    def segmentation(self, img: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    def segmentation(self, img: np.ndarray) -> np.ndarray:
         segimg_rgb: np.ndarray = np.zeros_like(img)
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
@@ -140,6 +140,15 @@ class AutoSeg():
         fimg: np.ndarray = np.zeros_like(img)
         for simg in class_simgs: fimg = np.add(fimg, simg)
         return np.array(fimg)
+
+    def linear_embedding(self, img: np.ndarray) -> np.ndarray:
+        idimg: np.ndarray = np.zeros((img.shape[0], img.shape[1]))
+        colors: list = [np.array(target["color"]) for target in self.target_classes.values()]
+        ids: list = [np.array(target["id"]) for target in self.target_classes.values()]
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                idimg[i][j] = int(ids[[np.array_equal(img[i][j], color) for color in colors].index(True)])
+        return np.array(idimg)
     
     def __call__(self, img: np.ndarray) -> np.ndarray:
         #RGB2LAB
@@ -167,10 +176,13 @@ class AutoSeg():
             self.median_filter,
         ])
 
+        #Linear embedding
+        x_lin = self.linear_embedding(x)
+
         #Overlay
-        overlay = cv2.addWeighted(img, 0.5, x, 0.5, 0)
+        #overlay = cv2.addWeighted(img, 0.5, x, 0.5, 0)
         
-        return np.array(x), np.array(overlay)
+        return np.array(x), np.array(x_lin)
 
 
 

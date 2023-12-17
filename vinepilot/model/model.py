@@ -23,12 +23,6 @@ class SegmantationModel(torch.nn.Module):
         x = self.relu(x)
         x = self.convDOWN(x)
         x = self.relu(x)
-        x = self.convDOWN(x)
-        x = self.relu(x)
-        x = self.convDOWN(x)
-        x = self.relu(x)
-        x = self.convDOWN(x)
-        x = self.relu(x)
 
         #Tunnel
         x = self.convCONST(x)
@@ -43,12 +37,6 @@ class SegmantationModel(torch.nn.Module):
         x = self.relu(x)
 
         #Decoder
-        x = self.convUP(x)
-        x = self.relu(x)
-        x = self.convUP(x)
-        x = self.relu(x)
-        x = self.convUP(x)
-        x = self.relu(x)
         x = self.convUP(x)
         x = self.relu(x)
         x = self.convUP(x)
