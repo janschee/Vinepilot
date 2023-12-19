@@ -21,11 +21,11 @@ target2_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target2_000.pn
 dataset = VinePilotSegmentationDataset()
 dataloader = DataLoader(dataset, Project.batch_size, Project.shuffle)
 model = SegmantationModel()
-loss = VinePilotLoss()
-optimizer = VinePilotOptimizer(trainable_parameters=model.parameters())
+loss_fn = VinePilotLoss(loss= Project.loss)()
+optimizer = VinePilotOptimizer(optimizer= Project.optimizer, learning_rate= Project.learning_rate, trainable_parameters= model.parameters())()
 
 if __name__ == "__main__":
-    train(dataloader, model, loss, optimizer, Project.epochs)
+    train(dataloader, model, loss_fn, optimizer, Project.epochs)
 
 """
 for i in range(0, dataset.__len__(), 100): 

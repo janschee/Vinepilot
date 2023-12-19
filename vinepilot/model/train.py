@@ -14,6 +14,8 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
             optimizer.step()
             optimizer.zero_grad()
 
+            #Logging
+            logging.debug(f"Epoch: {epoch:<3} Batch: {batch:<4} Loss: {loss.item():<20}")
             if batch % 10 == 0: logging.info(f"Epoch: {epoch:<3} Batch: {batch:<4} Loss: {loss.item():<20}")
 
 

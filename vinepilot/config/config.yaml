@@ -1,5 +1,5 @@
 runtime:
-  logging_level: "info"
+  logging_level: "debug"
 dataset:
   image_dir: "./vinepilot/data/imgs"
   data: "./vinepilot/data/data.json"

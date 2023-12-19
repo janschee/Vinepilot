@@ -20,13 +20,20 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
         #Misc
         self.autoseg = AutoSeg()
         self.input_resolution: tuple = (200,300)
+
+    @staticmethod 
+    def channel_first(tensor): return tensor.permute(2, 0, 1) #(height, width, channels) -> (channels, height, width)
  
+    @staticmethod 
+    def add_channel_dim(tensor): return tensor.unsqueeze(0) #(height, width) -> (channels, height, width)
+
     def __len__(self) -> int:
         return total_video_frames(self.video_path)
 
     def __getitem__(self, idx: int):
+        logging.debug(f"Loading frame {idx} from {self.video_path}.")
         frame: np.ndarray = load_video_frame(self.video_path, frame=idx)
         frame = Transform.scale(frame, self.input_resolution)
         _, seglin = self.autoseg(frame)
-        return torch.Tensor(frame), torch.Tensor(seglin)
+        return self.channel_first(torch.Tensor(frame)), self.add_channel_dim(torch.Tensor(seglin))
         

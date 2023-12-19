@@ -14,7 +14,7 @@ class SegmantationModel(torch.nn.Module):
     def forward(self, input):
         #Convert to Grayscale
         grayscale = torchvision.transforms.Grayscale(num_output_channels=1)
-        x = torch.stack([grayscale(x) for x in input])
+        x = grayscale(input)
 
         #Encoder
         x = self.convDOWN(x)
