@@ -65,16 +65,6 @@ class AutoSeg():
             b = b - 128
             return (l, a, b)
         nimg: np.ndarray = np.apply_along_axis(func, 2, img)
-        """
-        nimg: np.ndarray = np.zeros_like(img, dtype=int)
-        for i in range(img.shape[0]):
-            for j in range(img.shape[1]):
-                l, a, b = img[i][j]
-                l = int(l * 100/255)
-                a = a - 128
-                b = b - 128
-                nimg[i][j] = [l,a,b]
-        """
         return np.array(nimg)
         
     @staticmethod
@@ -121,11 +111,10 @@ class AutoSeg():
     
     def segmentation(self, img: np.ndarray) -> np.ndarray:
         #TODO: Generate 1D id segmentation image first and convert to rgb later.
-        segimg_rgb: np.ndarray = np.zeros_like(img)
-        for i in range(img.shape[0]):
-            for j in range(img.shape[1]):
-                pred_class: str | None = self.classify_pixel(img[i][j], dist_function=self.lab_color_distance)
-                segimg_rgb[i][j] = self.target_classes[pred_class]["color"] if pred_class is not None else self.target_classes["none"]["color"]
+        def func(pxl):
+                pred_class: str | None = self.classify_pixel(pxl, dist_function=self.lab_color_distance)
+                return self.target_classes[pred_class]["color"] if pred_class is not None else self.target_classes["none"]["color"]
+        segimg_rgb: np.ndarray = np.apply_along_axis(func, 2, img)
         return np.array(segimg_rgb).astype(np.uint8)
 
     def classwise_filter(self, img: np.ndarray, filters: list) -> np.ndarray:
