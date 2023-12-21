@@ -1,13 +1,14 @@
-#!/home/jan/Documents/Vinepilot/venv/bin/python
+#!/home/jan/Vinepilot/venv/bin/python
 
 #from vinepilot.tools import VineyardViewer
 #viewer = VineyardViewer()
 #viewer.show()
 
 import os
+import numpy as np
 from torch.utils.data import DataLoader
 from vinepilot.config import Project
-from vinepilot.utils import save_numpy_image
+from vinepilot.utils import save_numpy_image, torch2numpy_img
 from vinepilot.model.train import train
 from vinepilot.model.data import VinePilotSegmentationDataset
 from vinepilot.model.model import SegmantationModel
@@ -25,17 +26,15 @@ loss_fn = VinePilotLoss(loss= Project.loss)()
 optimizer = VinePilotOptimizer(optimizer= Project.optimizer, learning_rate= Project.learning_rate, trainable_parameters= model.parameters())()
 
 if __name__ == "__main__":
-    train(dataloader, model, loss_fn, optimizer, Project.epochs)
+    #train(dataloader, model, loss_fn, optimizer, Project.epochs)
 
-"""
-for i in range(0, dataset.__len__(), 100): 
-    print("Freame:", i, "\n")
-    frame, segimg = dataset.__getitem__(i)
-    save_numpy_image(frame, target_img)
-    save_numpy_image(segimg, target2_img)
-    print(segimg.shape)
-    time.sleep(2)
-"""
+    for i in range(0, dataset.__len__(), 100): 
+        print("Freame:", i, "\n")
+        frame, segimg = dataset.__getitem__(i)
+        frame = torch2numpy_img(frame)
+        segimg = torch2numpy_img(segimg)
+        save_numpy_image(frame, target_img)
+        save_numpy_image(segimg, target2_img)
 
 
 

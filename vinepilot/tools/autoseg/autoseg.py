@@ -58,6 +58,14 @@ class AutoSeg():
 
     @staticmethod
     def normalize_lab(img: np.ndarray) -> np.ndarray:
+        def func(pxl):
+            l, a, b = pxl
+            l = int(l * 100/255)
+            a = a - 128
+            b = b - 128
+            return (l, a, b)
+        nimg: np.ndarray = np.apply_along_axis(func, 2, img)
+        """
         nimg: np.ndarray = np.zeros_like(img, dtype=int)
         for i in range(img.shape[0]):
             for j in range(img.shape[1]):
@@ -66,6 +74,7 @@ class AutoSeg():
                 a = a - 128
                 b = b - 128
                 nimg[i][j] = [l,a,b]
+        """
         return np.array(nimg)
         
     @staticmethod
