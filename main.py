@@ -26,7 +26,7 @@ loss_fn = VinePilotLoss(loss= Project.loss)()
 optimizer = VinePilotOptimizer(optimizer= Project.optimizer, learning_rate= Project.learning_rate, trainable_parameters= model.parameters())()
 
 if __name__ == "__main__":
-    #train(dataloader, model, loss_fn, optimizer, Project.epochs)
+    train(dataloader, model, loss_fn, optimizer, Project.epochs)
 
     for i in range(0, dataset.__len__(), 100): 
         print("Freame:", i, "\n")

@@ -1,8 +1,8 @@
 import logging
+import time
 import cv2
 import numpy as np
 from vinepilot.config import Project
-
 
 class AutoSeg():
     def __init__(self) -> None:
@@ -149,7 +149,8 @@ class AutoSeg():
         return np.array(idimg).astype(np.uint8)
     
     def __call__(self, img: np.ndarray) -> np.ndarray:
-        logging.debug(f"AutoSeg: Generating image")
+        logging.debug(f"AutoSeg: Generating image...")
+        start = time.time()
 
         #RGB2LAB
         x = self.rgb2lab(img)
@@ -181,7 +182,8 @@ class AutoSeg():
 
         #Overlay
         #overlay = cv2.addWeighted(img, 0.5, x, 0.5, 0)
-
+        end = time.time()
+        logging.debug(f"AutoSeg: ...Done! ({end-start} sec.)")
         return np.array(x), np.array(x_lin)
 
 

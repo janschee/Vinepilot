@@ -5,9 +5,9 @@ dataset:
   data: "./vinepilot/data/data.json"
   vineyards_dir: "./vinepilot/data/vineyards"
 train:
-  batch_size: 1
+  batch_size: 5
   epochs: 3
-  shuffle: False
+  shuffle: True
   optimizer: "adam"
   loss: "mse"
   learning_rate: 0.001

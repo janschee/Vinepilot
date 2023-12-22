@@ -1,7 +1,7 @@
 import os
 import logging
-import torch
 
+import torch
 import numpy as np
 
 from vinepilot.config import Project
@@ -31,7 +31,7 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
         return total_video_frames(self.video_path)
 
     def __getitem__(self, idx: int):
-        logging.debug(f"Loading frame {idx} from {self.video_path}.")
+        logging.debug(f"Loading Frame {idx} from {self.video_path}.")
         frame: np.ndarray = load_video_frame(self.video_path, frame=idx)
         frame = Transform.scale(frame, self.input_resolution)
         _, seglin = self.autoseg(frame)
