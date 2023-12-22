@@ -59,7 +59,7 @@ class AutoSeg():
     @staticmethod
     def normalize_lab(img: np.ndarray) -> np.ndarray:
         def func(pxl):
-            l, a, b = pxl
+            l, a, b = np.array(pxl)
             l = int(l * 100/255)
             a = a - 128
             b = b - 128
@@ -112,7 +112,7 @@ class AutoSeg():
     def segmentation(self, img: np.ndarray) -> np.ndarray:
         #TODO: Generate 1D id segmentation image first and convert to rgb later.
         def func(pxl):
-                pred_class: str | None = self.classify_pixel(pxl, dist_function=self.lab_color_distance)
+                pred_class: str | None = self.classify_pixel(np.array(pxl), dist_function=self.lab_color_distance)
                 return self.target_classes[pred_class]["color"] if pred_class is not None else self.target_classes["none"]["color"]
         segimg_rgb: np.ndarray = np.apply_along_axis(func, 2, img)
         return np.array(segimg_rgb).astype(np.uint8)
@@ -144,9 +144,8 @@ class AutoSeg():
         idimg: np.ndarray = np.zeros((img.shape[0], img.shape[1]))
         colors: list = [np.array(target["color"]) for target in self.target_classes.values()]
         ids: list = [np.array(target["id"]) for target in self.target_classes.values()]
-        for i in range(img.shape[0]):
-            for j in range(img.shape[1]):
-                idimg[i][j] = int(ids[[np.array_equal(img[i][j], color) for color in colors].index(True)])
+        def func(pxl): return int(ids[[np.array_equal(np.array(pxl), color) for color in colors].index(True)])
+        idimg: np.ndarray = np.apply_along_axis(func, 2, img)
         return np.array(idimg).astype(np.uint8)
     
     def __call__(self, img: np.ndarray) -> np.ndarray:
