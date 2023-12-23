@@ -3,11 +3,11 @@ import logging
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
     model.train()
     for epoch in range(num_epochs):
-        for batch, (img, segimg) in enumerate(dataloader):
+        for batch, (img, seggray, segrgb) in enumerate(dataloader):
 
             #Forward
             predictions: list = model(img)
-            loss = loss_fn(predictions, segimg)
+            loss = loss_fn(predictions, seggray)
 
             #Backward
             loss.backward()

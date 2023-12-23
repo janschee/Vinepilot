@@ -34,10 +34,10 @@ class AutoSeg():
 
         #Segmentation colors (RGB format)
         self.target_classes: dict = {
-            "track": {"id": 100, "color": (0,0,255)},
-            "grapevine": {"id": 200, "color": (0,255,0)},
-            "driveway": {"id": 150, "color": (0,100,100)},
-            "none": {"id": 0, "color": (0,0,0)}
+            "track": {"id": 1, "color": (0,0,255), "graytone": 100},
+            "grapevine": {"id": 2, "color": (0,255,0), "graytone": 150},
+            "driveway": {"id": 3, "color": (0,100,100), "graytone": 200},
+            "none": {"id": 0, "color": (0,0,0), "graytone": 0}
         }
 
     @staticmethod
@@ -88,14 +88,14 @@ class AutoSeg():
     @staticmethod
     def area_size_filter(img: np.ndarray, threshold_area: int = 500):
         fimg: np.ndarray = img.copy()
-        grayscale: np.ndarray = np.array(cv2.cvtColor(img, cv2.COLOR_RGB2GRAY))
-        _, binary_mask = cv2.threshold(grayscale, 1, 255, cv2.THRESH_BINARY)
+        #grayscale: np.ndarray = np.array(cv2.cvtColor(img, cv2.COLOR_RGB2GRAY))
+        #_, binary_mask = cv2.threshold(grayscale, 1, 255, cv2.THRESH_BINARY)
+        binary_mask = img
         contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         for con in contours:
             if cv2.contourArea(con) < threshold_area:
                 cv2.drawContours(fimg, [con], 0, (0, 0, 0), thickness=cv2.FILLED)
         return np.array(fimg)
-
 
     def classify_pixel(self, pxl: tuple, dist_function: callable) -> str | None:
         distances: list[str, float, int] = []
@@ -110,44 +110,46 @@ class AutoSeg():
         return None
     
     def segmentation(self, img: np.ndarray) -> np.ndarray:
-        #TODO: Generate 1D id segmentation image first and convert to rgb later.
         def func(pxl):
                 pred_class: str | None = self.classify_pixel(np.array(pxl), dist_function=self.lab_color_distance)
-                return self.target_classes[pred_class]["color"] if pred_class is not None else self.target_classes["none"]["color"]
-        segimg_rgb: np.ndarray = np.apply_along_axis(func, 2, img)
-        return np.array(segimg_rgb).astype(np.uint8)
+                return self.target_classes[pred_class]["id"] if pred_class is not None else self.target_classes["none"]["id"]
+        segimg: np.ndarray = np.apply_along_axis(func, 2, img)
+        return np.array(segimg).astype(np.uint8)
 
     def classwise_filter(self, img: np.ndarray, filters: list) -> np.ndarray:
         #Init
         class_names: list = []
-        class_values: list = []
+        class_ids: list = []
         class_simgs: list = []
         for key, value in self.target_classes.items(): 
             class_names.append(key)
-            class_values.append(value["color"])
+            class_ids.append(value["id"])
             class_simgs.append(np.zeros_like(img))
         #Split classes
-        for i in range(img.shape[0]):
-            for j in range(img.shape[1]):
-                pxl = img[i][j]
-                for idx, value in enumerate(class_values): 
-                    if np.array_equal(pxl, value):
-                        class_simgs[idx][i][j] = pxl
+        for i, idx in enumerate(class_ids): class_simgs[i] = np.where(img == idx, 1, 0).astype(np.uint8)
         #Filtering
         for filter in filters: class_simgs = [filter(i) for i in class_simgs]
+        #Binary to ID image
+        for i, simg in enumerate(class_simgs): class_simgs[i] = np.where(simg == 1, class_ids[i], 0)
         #Recombine classes
         fimg: np.ndarray = np.zeros_like(img)
         for simg in class_simgs: fimg = np.add(fimg, simg)
         return np.array(fimg)
 
-    def linear_embedding(self, img: np.ndarray) -> np.ndarray:
-        idimg: np.ndarray = np.zeros((img.shape[0], img.shape[1]))
-        colors: list = [np.array(target["color"]) for target in self.target_classes.values()]
-        ids: list = [np.array(target["id"]) for target in self.target_classes.values()]
-        def func(pxl): return int(ids[[np.array_equal(np.array(pxl), color) for color in colors].index(True)])
-        idimg: np.ndarray = np.apply_along_axis(func, 2, img)
-        return np.array(idimg).astype(np.uint8)
+    def seg2rgb(self, img: np.ndarray) -> np.ndarray:
+        id_colors: list = sorted([[value["id"], value["color"]] for value in self.target_classes.values()], key=lambda x : x[0])
+        rgb_colors: np.ndarray = np.array([x[1] for x in id_colors ])
+        def func(pxl): return rgb_colors[pxl]
+        rgbimg: np.ndarray = np.apply_along_axis(func, 1, img)
+        return np.array(rgbimg).astype(np.uint8)
     
+    def seg2gray(self, img: np.ndarray) -> np.ndarray:
+        id_graytones: list = sorted([[value["id"], value["graytone"]] for value in self.target_classes.values()], key=lambda x : x[0])
+        graytones: np.ndarray = np.array([x[1] for x in id_graytones])
+        def func(pxl): return graytones[pxl]
+        rgbimg: np.ndarray = np.apply_along_axis(func, 1, img)
+        return np.array(rgbimg).astype(np.uint8)
+
     def __call__(self, img: np.ndarray) -> np.ndarray:
         logging.debug(f"AutoSeg: Generating image...")
         start = time.time()
@@ -167,7 +169,7 @@ class AutoSeg():
 
         #Segmentation
         x = self.segmentation(x)
-
+        
         #Classwise Filter
         x = self.classwise_filter(x, filters=[
             self.median_filter,
@@ -177,14 +179,17 @@ class AutoSeg():
             self.median_filter,
         ])
 
-        #Linear embedding
-        x_lin = self.linear_embedding(x)
+        #Convert to RGB
+        x_gray = self.seg2gray(x)
+
+        #Convert to RGB
+        x_rgb = self.seg2rgb(x)
 
         #Overlay
         #overlay = cv2.addWeighted(img, 0.5, x, 0.5, 0)
         end = time.time()
         logging.debug(f"AutoSeg: ...Done! ({end-start} sec.)")
-        return np.array(x), np.array(x_lin)
+        return np.array(x_gray), np.array(x_rgb)
 
 
 
