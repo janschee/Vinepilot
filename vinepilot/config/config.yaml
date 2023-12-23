@@ -1,9 +1,10 @@
 runtime:
   logging_level: "debug"
-dataset:
+project:
   image_dir: "./vinepilot/data/imgs"
   data: "./vinepilot/data/data.json"
   vineyards_dir: "./vinepilot/data/vineyards"
+  model_dir: "./vinepilot/model" 
 train:
   batch_size: 5
   epochs: 3

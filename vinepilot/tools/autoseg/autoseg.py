@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 from vinepilot.config import Project
 
+#TODO: change all image formats to (batch, channel, hight, width)
+
 class AutoSeg():
     def __init__(self) -> None:
         

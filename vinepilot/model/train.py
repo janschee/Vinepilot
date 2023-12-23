@@ -1,7 +1,14 @@
-import logging 
+import logging
+import os
+import torch
+
+from vinepilot.config import Project
 
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
+    model_weights: str = os.path.normpath(os.path.join(Project.model_dir, "./best_model.pth"))
+    model.load_state_dict(torch.load(model_weights))
     model.train()
+    min_loss: float = float("inf")
     for epoch in range(num_epochs):
         for batch, (img, seggray, segrgb) in enumerate(dataloader):
 
@@ -14,10 +21,15 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
             optimizer.step()
             optimizer.zero_grad()
 
-            #Logging
-            logging.debug(f"Epoch: {epoch:<3} Batch: {batch:<4} Loss: {loss.item():<20}")
-            if batch % 10 == 0: logging.info(f"Epoch: {epoch:<3} Batch: {batch:<4} Loss: {loss.item():<20}")
+            #Save model
+            if loss.item() < min_loss: 
+                logging.debug(f"Train: Saved model!")
+                min_loss = loss.item()
+                torch.save(model.state_dict(), model_weights)
 
+            #Logging
+            logging.debug(f"Train: Epoch: {epoch:<3} Batch: {batch:<4} Loss: {loss.item():<20}")
+            if batch % 10 == 0: logging.info(f"Train: Epoch: {epoch:<3} Batch: {batch:<4} Loss: {loss.item():<20}")
 
 
 
