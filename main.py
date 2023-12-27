@@ -16,9 +16,9 @@ from vinepilot.model.optimizer import VinePilotOptimizer
 from vinepilot.model.loss import VinePilotLoss
 
 test_video = os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.mp4")
+frame_img = os.path.join(Project.vineyards_dir, "./vineyard_000/frame_000.png")
 target_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target_000.png")
-target2_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target2_000.png")
-target3_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target3_000.png")
+target_rgb_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target_rgb_000.png")
 
 dataset = VinePilotSegmentationDataset()
 dataloader = DataLoader(dataset, Project.batch_size, Project.shuffle)
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     for i in range(0, dataset.__len__(), 100): 
         print("\n", "Freame:", i, )
         frame, seggray, segrgb = dataset.__getitem__(i)
-        save_torch_image(frame, target_img)
-        save_torch_image(seggray, target2_img)
-        save_torch_image(segrgb, target3_img)
+        save_torch_image(frame, frame_img)
+        save_torch_image(seggray, target_img)
+        save_torch_image(segrgb, target_rgb_img)
 

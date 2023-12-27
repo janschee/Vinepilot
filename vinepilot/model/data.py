@@ -19,7 +19,7 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
 
         #Misc
         self.autoseg = AutoSeg()
-        self.input_resolution: tuple = (200,300)
+        self.input_resolution: tuple = (128,256)
 
     @staticmethod 
     def channel_first(tensor): return tensor.permute(2, 0, 1) #(height, width, channels) -> (channels, height, width)

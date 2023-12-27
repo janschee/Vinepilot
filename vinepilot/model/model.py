@@ -1,4 +1,3 @@
-import copy
 import torch
 import torchvision
 
@@ -11,6 +10,15 @@ class PrintLayer(torch.nn.Module):
         return x
     
 
+class UpSample(torch.nn.Module):
+    def __init__(self, scale_factor):
+        super(UpSample, self).__init__()
+        self.scale_factor = scale_factor
+
+    def forward(self, x):
+        return torch.nn.functional.interpolate(x, scale_factor=self.scale_factor, mode="nearest")
+    
+
 class SegmantationModel(torch.nn.Module):
     def __init__(self):
         """
@@ -21,19 +29,22 @@ class SegmantationModel(torch.nn.Module):
         """
         super(SegmantationModel, self).__init__()
         self.encoder = torch.nn.Sequential(
-            torch.nn.Conv2d(1, 32, kernel_size=(3, 3), stride=1, padding=1),
+            torch.nn.Conv2d(1, 8, kernel_size=(3, 3), stride=2, padding=1),
             torch.nn.ReLU(),
-            torch.nn.Conv2d(32, 32, kernel_size=(3, 3), stride=1, padding=1),
+            torch.nn.Conv2d(8, 16, kernel_size=(3, 3), stride=2, padding=1),
             torch.nn.ReLU(),
-            torch.nn.Conv2d(32, 32, kernel_size=(3, 3), stride=1, padding=1),
+            torch.nn.Conv2d(16, 32, kernel_size=(3, 3), stride=2, padding=1),
             torch.nn.ReLU(),
         )
         self.decoder = torch.nn.Sequential(
-            torch.nn.Conv2d(32, 32, kernel_size=(3, 3), stride=1, padding=1),
+            UpSample(scale_factor=2),
+            torch.nn.Conv2d(32, 16, kernel_size=(3, 3), stride=1, padding=1),
             torch.nn.ReLU(),
-            torch.nn.Conv2d(32, 32, kernel_size=(3, 3), stride=1, padding=1),
+            UpSample(scale_factor=2),
+            torch.nn.Conv2d(16, 8, kernel_size=(3, 3), stride=1, padding=1),
             torch.nn.ReLU(),
-            torch.nn.Conv2d(32, 1, kernel_size=(3, 3), stride=1, padding=1),
+            UpSample(scale_factor=2),
+            torch.nn.Conv2d(8, 1, kernel_size=(3, 3), stride=1, padding=1),
             torch.nn.ReLU(),
         )
 
