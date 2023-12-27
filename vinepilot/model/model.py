@@ -25,7 +25,7 @@ class Reshape(torch.nn.Module):
         self.shape = shape
 
     def forward(self, x):
-        return torch.reshape(x, self.shape)
+        return torch.stack([torch.reshape(i, self.shape) for i in x])
 
 class SegmantationModel(torch.nn.Module):
     def __init__(self):
@@ -34,28 +34,27 @@ class SegmantationModel(torch.nn.Module):
         self.encoder = torch.nn.Sequential(
             torch.nn.Conv2d(1, 32, kernel_size=(3, 3), stride=2, padding=1),
             torch.nn.ReLU(),
-            torch.nn.Conv2d(32, 16, kernel_size=(3, 3), stride=2, padding=1),
+            torch.nn.Conv2d(32, 64, kernel_size=(3, 3), stride=2, padding=1),
             torch.nn.ReLU(),
-            torch.nn.Conv2d(16, 8, kernel_size=(3, 3), stride=2, padding=1),
+            torch.nn.Conv2d(64, 128, kernel_size=(3, 3), stride=2, padding=1),
             torch.nn.ReLU(),
         )
 
         self.fully_connected = torch.nn.Sequential(
             torch.nn.Flatten(),
-            torch.nn.Linear(8 * 16 * 32, 512),
+            torch.nn.Linear(128 * 16 * 32, 512, bias=False),
             torch.nn.ReLU(),
             torch.nn.Linear(512, 512),
             torch.nn.ReLU(),
-            Reshape((5, 1, 16, 32)) #TODO: Dont use fixed shapes!
+            Reshape((1, 16, 32)) #TODO: Dont use fixed shapes!
         )
 
         self.decoder = torch.nn.Sequential(
-            torch.nn.ConvTranspose2d(1, 1, kernel_size=(3, 3), stride=2, padding=1),
-            PrintLayer(),
+            torch.nn.ConvTranspose2d(1, 1, kernel_size=(3, 3), stride=2, padding=1, output_padding=1),
             torch.nn.ReLU(),
-            torch.nn.ConvTranspose2d(1, 1, kernel_size=(3, 3), stride=2, padding=1),
+            torch.nn.ConvTranspose2d(1, 1, kernel_size=(3, 3), stride=2, padding=1, output_padding=1),
             torch.nn.ReLU(),
-            torch.nn.ConvTranspose2d(1, 1, kernel_size=(3, 3), stride=2, padding=1),
+            torch.nn.ConvTranspose2d(1, 1, kernel_size=(3, 3), stride=2, padding=1, output_padding=1),
             torch.nn.ReLU(),
         )
 
