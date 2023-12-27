@@ -13,6 +13,11 @@ def save_numpy_image(img_arr: np.ndarray, path: str) -> None:
     img = Image.fromarray(npimg)
     img.save(path)
 
+def save_torch_image(tensor, path: str) -> None:
+    npimg = tensor.numpy()
+    npimg = np.transpose(tensor, (1,2,0))
+    save_numpy_image(npimg, path)
+
 def load_video_frame(video_path: str, frame: int) -> np.ndarray:
     cap = cv2.VideoCapture(video_path)
     assert cap.isOpened(), "Could not open video file!"
@@ -32,6 +37,8 @@ def torch2numpy_img(tensor) -> np.ndarray:
     npimg = tensor.numpy()
     npimg = np.transpose(tensor, (1,2,0))
     return np.array(npimg).astype(np.uint8)
+
+
 
 
 
