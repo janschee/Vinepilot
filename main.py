@@ -27,14 +27,11 @@ loss_fn = VinePilotLoss(loss= Project.loss)()
 optimizer = VinePilotOptimizer(optimizer= Project.optimizer, learning_rate= Project.learning_rate, trainable_parameters= model.parameters())()
 
 if __name__ == "__main__":
-    #train(dataloader, model, loss_fn, optimizer, Project.epochs)
+    train(dataloader, model, loss_fn, optimizer, Project.epochs)
 
     for i in range(0, dataset.__len__(), 100): 
         print("\n", "Freame:", i, )
         frame, seggray, segrgb = dataset.__getitem__(i)
-        #frame = torch2numpy_img(frame)
-        #seggray = torch2numpy_img(seggray)
-        #segrgb = torch2numpy_img(segrgb)
         save_torch_image(frame, target_img)
         save_torch_image(seggray, target2_img)
         save_torch_image(segrgb, target3_img)
