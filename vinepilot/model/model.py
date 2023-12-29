@@ -26,7 +26,7 @@ class SegmentationModel(torch.nn.Module):
 
         # Bottleneck
         self.bottleneck = torch.nn.Sequential(
-            torch.nn.Linear(128 * 16 * 32, 512, bias=False),
+            torch.nn.Linear(128 * 16 * 32, 512, bias=True),
             torch.nn.ReLU(inplace=True),
             torch.nn.Linear(512, 512),
             torch.nn.ReLU(inplace=True),
@@ -40,10 +40,10 @@ class SegmentationModel(torch.nn.Module):
             torch.nn.ReLU(inplace=True),
             torch.nn.ConvTranspose2d(64, 32, kernel_size=4, stride=4),
             torch.nn.ReLU(inplace=True),
-            torch.nn.ConvTranspose2d(32, 16, kernel_size=4, stride=4),
+            torch.nn.ConvTranspose2d(32, 1, kernel_size=4, stride=4),
             torch.nn.ReLU(inplace=True),
-            torch.nn.Conv2d(16, 1, kernel_size=1, padding=0),
-            torch.nn.Sigmoid()
+            torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
+            torch.nn.Sigmoid(),
         )
 
     def forward(self, x):
