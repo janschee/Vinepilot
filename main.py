@@ -11,7 +11,7 @@ from vinepilot.config import Project
 from vinepilot.utils import save_numpy_image, save_torch_image
 from vinepilot.model.train import train
 from vinepilot.model.data import VinePilotSegmentationDataset
-from vinepilot.model.model import SegmantationModel
+from vinepilot.model.model import SegmentationModel
 from vinepilot.model.optimizer import VinePilotOptimizer
 from vinepilot.model.loss import VinePilotLoss
 
@@ -22,13 +22,14 @@ target_rgb_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target_rgb_
 
 dataset = VinePilotSegmentationDataset()
 dataloader = DataLoader(dataset, Project.batch_size, Project.shuffle)
-model = SegmantationModel()
+model = SegmentationModel()
 loss_fn = VinePilotLoss(loss= Project.loss)()
 optimizer = VinePilotOptimizer(optimizer= Project.optimizer, learning_rate= Project.learning_rate, trainable_parameters= model.parameters())()
 
 if __name__ == "__main__":
     train(dataloader, model, loss_fn, optimizer, Project.epochs)
 
+    exit()
     for i in range(0, dataset.__len__(), 100): 
         print("\n", "Freame:", i, )
         frame, seggray, segrgb = dataset.__getitem__(i)
