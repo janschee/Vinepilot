@@ -10,6 +10,15 @@ class PrintLayer(torch.nn.Module):
         return x
 
 
+class Interpolate(torch.nn.Module):
+    def __init__(self, scale_factor):
+        super(Interpolate, self).__init__()
+        self.scale_factor = scale_factor
+
+    def forward(self, x):
+        return torch.nn.functional.interpolate(x, scale_factor=self.scale_factor, mode="bilinear")
+
+
 class SegmentationModel(torch.nn.Module):
     def __init__(self):
         super(SegmentationModel, self).__init__()
@@ -26,23 +35,25 @@ class SegmentationModel(torch.nn.Module):
 
         # Bottleneck
         self.bottleneck = torch.nn.Sequential(
-            torch.nn.Linear(128 * 16 * 32, 512, bias=True),
+            torch.nn.Linear(128 * 16 * 32, 2048, bias=False),
             torch.nn.ReLU(inplace=True),
-            torch.nn.Linear(512, 512),
+            torch.nn.Linear(2048, 1024, bias=True),
+            torch.nn.ReLU(inplace=True),
+            torch.nn.Linear(1024, 512, bias=True),
             torch.nn.ReLU(inplace=True),
         )
 
         # Decoder
         self.decoder = torch.nn.Sequential(
-            torch.nn.ConvTranspose2d(512, 128, kernel_size=(2,4), stride=(2,4)),
-            torch.nn.ReLU(inplace=True),
-            torch.nn.ConvTranspose2d(128, 64, kernel_size=4, stride=4),
-            torch.nn.ReLU(inplace=True),
-            torch.nn.ConvTranspose2d(64, 32, kernel_size=4, stride=4),
-            torch.nn.ReLU(inplace=True),
-            torch.nn.ConvTranspose2d(32, 1, kernel_size=4, stride=4),
-            torch.nn.ReLU(inplace=True),
+            Interpolate(scale_factor=2),
             torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
+            torch.nn.ReLU(inplace=True),
+            Interpolate(scale_factor=2),
+            torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
+            torch.nn.ReLU(inplace=True),
+            Interpolate(scale_factor=2),
+            torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
+            torch.nn.ReLU(inplace=True),
             torch.nn.Sigmoid(),
         )
 
@@ -60,7 +71,7 @@ class SegmentationModel(torch.nn.Module):
         x = self.bottleneck(x)
 
         # Reshape for decoder
-        x = x.view(x.size(0), 512, 1, 1)
+        x = x.view(x.size(0), 1, 16, 32)
 
         # Decoder
         x = self.decoder(x)
