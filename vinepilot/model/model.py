@@ -25,21 +25,21 @@ class SegmentationModel(torch.nn.Module):
 
         # Encoder
         self.encoder = torch.nn.Sequential(
-            torch.nn.Conv2d(1, 32, kernel_size=3, stride=2, padding=1),
+            torch.nn.Conv2d(1, 64, kernel_size=3, stride=2, padding=1),
             torch.nn.ReLU(inplace=True),
-            torch.nn.Conv2d(32, 64, kernel_size=3, stride=2, padding=1),
+            torch.nn.Conv2d(64, 32, kernel_size=3, stride=2, padding=1),
             torch.nn.ReLU(inplace=True),
-            torch.nn.Conv2d(64, 128, kernel_size=3, stride=2, padding=1),
+            torch.nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),
             torch.nn.ReLU(inplace=True),
         )
 
         # Bottleneck
         self.bottleneck = torch.nn.Sequential(
-            torch.nn.Linear(128 * 16 * 32, 2048, bias=False),
-            torch.nn.ReLU(inplace=True),
-            torch.nn.Linear(2048, 1024, bias=True),
+            torch.nn.Linear(16 * 16 * 32, 1024, bias=False),
             torch.nn.ReLU(inplace=True),
             torch.nn.Linear(1024, 512, bias=True),
+            torch.nn.ReLU(inplace=True),
+            torch.nn.Linear(512, 512, bias=True),
             torch.nn.ReLU(inplace=True),
         )
 
@@ -54,7 +54,6 @@ class SegmentationModel(torch.nn.Module):
             Interpolate(scale_factor=2),
             torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
             torch.nn.ReLU(inplace=True),
-            torch.nn.Sigmoid(),
         )
 
     def forward(self, x):
