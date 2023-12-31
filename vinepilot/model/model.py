@@ -25,17 +25,17 @@ class SegmentationModel(torch.nn.Module):
 
         # Encoder
         self.encoder = torch.nn.Sequential(
-            torch.nn.Conv2d(1, 64, kernel_size=3, stride=2, padding=1),
+            torch.nn.Conv2d(1, 32, kernel_size=3, stride=2, padding=1),
             torch.nn.ReLU(inplace=True),
-            torch.nn.Conv2d(64, 32, kernel_size=3, stride=2, padding=1),
+            torch.nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
             torch.nn.ReLU(inplace=True),
-            torch.nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),
+            torch.nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
             torch.nn.ReLU(inplace=True),
         )
 
         # Bottleneck
         self.bottleneck = torch.nn.Sequential(
-            torch.nn.Linear(16 * 16 * 32, 1024, bias=False),
+            torch.nn.Linear(32 * 16 * 32, 1024, bias=False),
             torch.nn.ReLU(inplace=True),
             torch.nn.Linear(1024, 512, bias=True),
             torch.nn.ReLU(inplace=True),
@@ -76,6 +76,6 @@ class SegmentationModel(torch.nn.Module):
         x = self.decoder(x)
 
         # Post-processing to convert probability values to [0, 255]
-        x = (x * 255).round()
+        #x = (x * 255).round()
 
         return x

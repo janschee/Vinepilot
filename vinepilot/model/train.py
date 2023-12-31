@@ -14,7 +14,7 @@ pred_img = os.path.join(Project.vineyards_dir, "./vineyard_000/pred_000.png")
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
     model_weights: str = os.path.normpath(os.path.join(Project.model_dir, "./best_model.pth"))
     logging.info(f"Train: Model Architecture: {model}")
-    #model.load_state_dict(torch.load(model_weights))
+    model.load_state_dict(torch.load(model_weights))
     model.train()
     min_loss: float = float("inf")
     for epoch in range(num_epochs):
