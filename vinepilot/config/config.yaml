@@ -11,7 +11,7 @@ train:
   shuffle: True
   optimizer: "adam"
   loss: "mse"
-  learning_rate: 0.001
+  learning_rate: 0.01
 test:
 server:
   host_address: "192.168.114.132"

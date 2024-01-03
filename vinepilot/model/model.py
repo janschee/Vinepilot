@@ -9,7 +9,6 @@ class PrintLayer(torch.nn.Module):
         print(x.shape)
         return x
 
-
 class Interpolate(torch.nn.Module):
     def __init__(self, scale_factor):
         super(Interpolate, self).__init__()
@@ -18,6 +17,14 @@ class Interpolate(torch.nn.Module):
     def forward(self, x):
         return torch.nn.functional.interpolate(x, scale_factor=self.scale_factor, mode="bilinear")
 
+class Multiply(torch.nn.Module):
+    def __init__(self, alpha):
+        super().__init__()
+        self.alpha =  alpha
+    
+    def forward(self, x):
+        x = torch.mul(x, self.alpha)
+        return x
 
 class SegmentationModel(torch.nn.Module):
     def __init__(self):
@@ -31,6 +38,7 @@ class SegmentationModel(torch.nn.Module):
             torch.nn.ReLU(inplace=True),
             torch.nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
             torch.nn.ReLU(inplace=True),
+            torch.nn.Sigmoid(),
         )
 
         # Bottleneck
@@ -41,6 +49,7 @@ class SegmentationModel(torch.nn.Module):
             torch.nn.ReLU(inplace=True),
             torch.nn.Linear(512, 512, bias=True),
             torch.nn.ReLU(inplace=True),
+            torch.nn.Sigmoid(),
         )
 
         # Decoder
@@ -54,6 +63,8 @@ class SegmentationModel(torch.nn.Module):
             Interpolate(scale_factor=2),
             torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
             torch.nn.ReLU(inplace=True),
+            torch.nn.Sigmoid(),
+            Multiply(255),
         )
 
     def forward(self, x):
@@ -74,8 +85,5 @@ class SegmentationModel(torch.nn.Module):
 
         # Decoder
         x = self.decoder(x)
-
-        # Post-processing to convert probability values to [0, 255]
-        #x = (x * 255).round()
 
         return x
