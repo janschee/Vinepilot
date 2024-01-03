@@ -152,6 +152,21 @@ class AutoSeg():
         rgbimg: np.ndarray = np.apply_along_axis(func, 1, img)
         return np.array(rgbimg).astype(np.uint8)
 
+    def gray2rgb(self, img: np.ndarray) -> np.ndarray:
+        id_colors_gray: list = sorted([[value["id"], value["color"], value["graytone"]] for value in self.target_classes.values()], key=lambda x : x[0])
+        rgb_colors: np.ndarray = np.array([x[1] for x in id_colors_gray])
+        gray_colors: np.ndarray = np.array([x[2] for x in id_colors_gray])
+        #def func1(pxl): return list(gray_colors).index(min(list(gray_colors), key=lambda x: abs(pxl-x)))
+        #idimg: np.ndarray = np.apply_along_axis(func1, 1, npimg)
+        idimg: np.ndarray = np.zeros((img.shape[0], img.shape[1]), dtype=np.uint)
+        #TODO: Try Optimize this loop!
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                idimg[i][j] = list(gray_colors).index(min(list(gray_colors), key=lambda x: abs(img[i][j]-x)))
+        def func2(pxl): return rgb_colors[pxl]
+        rgbimg: np.ndarray = np.apply_along_axis(func2, 1, idimg)
+        return np.array(rgbimg).astype(np.uint8)
+
     def __call__(self, img: np.ndarray) -> np.ndarray:
         logging.debug(f"AutoSeg: Generating image...")
         start = time.time()

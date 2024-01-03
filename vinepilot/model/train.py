@@ -41,7 +41,7 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
 
             #Visualize predictions TODO: Only for testing
             save_torch_image(seggray[0], target_img)
-            save_torch_image(predictions[0].detach(), pred_img)
+            save_numpy_image(AutoSeg().gray2rgb(torch2numpy_img(predictions[0].detach())), pred_img)
             
             
 
