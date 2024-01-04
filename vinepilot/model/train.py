@@ -9,6 +9,7 @@ from vinepilot.tools import AutoSeg
 #TODO: This seems a little out of place here. Find better solution!
 target_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target_000.png")
 pred_img = os.path.join(Project.vineyards_dir, "./vineyard_000/pred_000.png")
+pred_rgb_img = os.path.join(Project.vineyards_dir, "./vineyard_000/pred_rgb_000.png")
 
 
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
@@ -41,7 +42,9 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
 
             #Visualize predictions TODO: Only for testing
             save_torch_image(seggray[0], target_img)
-            save_numpy_image(AutoSeg().gray2rgb(torch2numpy_img(predictions[0].detach())), pred_img)
+            save_torch_image(predictions[0].detach(), pred_img)
+            save_numpy_image(AutoSeg().gray2rgb(torch2numpy_img(predictions[0].detach())), pred_rgb_img)
+        
             
             
 

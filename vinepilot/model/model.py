@@ -33,28 +33,35 @@ class SegmentationModel(torch.nn.Module):
         # Encoder
         self.encoder = torch.nn.Sequential(
             torch.nn.Conv2d(1, 32, kernel_size=3, stride=2, padding=1),
+            torch.nn.ReLU(inplace=True),
             torch.nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
+            torch.nn.ReLU(inplace=True),
             torch.nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1),
-            torch.nn.Sigmoid(),
+            torch.nn.ReLU(inplace=True),
         )
 
         # Bottleneck
         self.bottleneck = torch.nn.Sequential(
             torch.nn.Linear(32 * 16 * 32, 1024, bias=False),
+            torch.nn.ReLU(inplace=True),
             torch.nn.Linear(1024, 512, bias=True),
+            torch.nn.ReLU(inplace=True),
             torch.nn.Linear(512, 512, bias=True),
-            torch.nn.Sigmoid(),
+            torch.nn.ReLU(inplace=True),
         )
 
         # Decoder
         self.decoder = torch.nn.Sequential(
             Interpolate(scale_factor=2),
             torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
+            torch.nn.ReLU(inplace=True),
             Interpolate(scale_factor=2),
             torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
+            torch.nn.ReLU(inplace=True),
             Interpolate(scale_factor=2),
             torch.nn.Conv2d(1, 1, kernel_size=3, stride=1, padding=1),
-            torch.nn.Sigmoid(),
+            torch.nn.ReLU(inplace=True),
+            torch.nn.Tanh(),
             Multiply(255),
         )
 
