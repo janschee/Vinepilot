@@ -11,7 +11,7 @@ from vinepilot.config import Project
 from vinepilot.utils import save_numpy_image, save_torch_image
 from vinepilot.model.train import train
 from vinepilot.model.data import VinePilotSegmentationDataset
-from vinepilot.model.model import SegmentationModel
+from vinepilot.model.unet import UNet
 from vinepilot.model.optimizer import VinePilotOptimizer
 from vinepilot.model.loss import VinePilotLoss
 
@@ -22,7 +22,7 @@ target_rgb_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target_rgb_
 
 dataset = VinePilotSegmentationDataset()
 dataloader = DataLoader(dataset, Project.batch_size, Project.shuffle)
-model = SegmentationModel()
+model = UNet(n_channels=1, n_classes=4)
 loss_fn = VinePilotLoss(loss= Project.loss)()
 optimizer = VinePilotOptimizer(optimizer= Project.optimizer, learning_rate= Project.learning_rate, trainable_parameters= model.parameters())()
 

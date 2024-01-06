@@ -15,15 +15,15 @@ pred_rgb_img = os.path.join(Project.vineyards_dir, "./vineyard_000/pred_rgb_000.
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
     model_weights: str = os.path.normpath(os.path.join(Project.model_dir, "./best_model.pth"))
     logging.info(f"Train: Model Architecture: {model}")
-    model.load_state_dict(torch.load(model_weights))
+    #model.load_state_dict(torch.load(model_weights))
     model.train()
     min_loss: float = float("inf")
     for epoch in range(num_epochs):
-        for batch, (img, seggray, segrgb) in enumerate(dataloader):
+        for batch, (img, segimg, seggray, segrgb, segmulti) in enumerate(dataloader):
 
             #Forward
             predictions: list = model(img)
-            loss = loss_fn(predictions, seggray)
+            loss = loss_fn(predictions, segmulti)
 
             #Backward
             loss.backward()

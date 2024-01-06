@@ -167,6 +167,13 @@ class AutoSeg():
         rgbimg: np.ndarray = np.apply_along_axis(func2, 1, idimg)
         return np.array(rgbimg).astype(np.uint8)
 
+    def seg2multichannel(self, img: np.ndarray) -> np.ndarray:
+        num_channels: int = len(self.target_classes)
+        binary_tensor: np.ndarray = np.zeros((num_channels, img.shape[0], img.shape[1])) #Channel first format!
+        for i in range(num_channels): binary_tensor[i] = np.where(img == i, 1, 0)
+        return np.array(binary_tensor).astype(np.uint8)
+
+
     def __call__(self, img: np.ndarray) -> np.ndarray:
         logging.debug(f"AutoSeg: Generating image...")
         start = time.time()
@@ -202,11 +209,14 @@ class AutoSeg():
         #Convert to RGB
         x_rgb = self.seg2rgb(x)
 
+        #Convert to multi-channel
+        x_multi = self.seg2multichannel(x)
+
         #Overlay
         #overlay = cv2.addWeighted(img, 0.5, x, 0.5, 0)
         end = time.time()
         logging.debug(f"AutoSeg: ...Done! ({end-start} sec.)")
-        return np.array(x_gray), np.array(x_rgb)
+        return np.array(x), np.array(x_gray), np.array(x_rgb), np.array(x_multi)
 
 
 

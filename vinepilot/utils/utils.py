@@ -3,6 +3,7 @@ from PIL import Image
 import numpy as np
 import cv2
 
+
 def load_image_as_numpy(img_path: str) -> np.ndarray:
     return np.array(Image.open(img_path))
 
@@ -37,6 +38,11 @@ def torch2numpy_img(tensor) -> np.ndarray:
     npimg = tensor.numpy()
     npimg = np.transpose(tensor, (1,2,0))
     return np.array(npimg).astype(np.uint8)
+
+def save_autoseg_imgs(target_dir: str, dataset) -> None:
+    raise NotImplemented
+
+
 
 
 

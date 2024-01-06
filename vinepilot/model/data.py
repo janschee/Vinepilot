@@ -2,6 +2,7 @@ import os
 import logging
 
 import torch
+import torchvision
 import numpy as np
 
 from vinepilot.config import Project
@@ -34,5 +35,7 @@ class VinePilotSegmentationDataset(torch.utils.data.Dataset):
         logging.debug(f"Loading Frame {idx} from {self.video_path}.")
         frame: np.ndarray = load_video_frame(self.video_path, frame=idx)
         frame = Transform.scale(frame, self.input_resolution)
-        seggray, segrgb = self.autoseg(frame)
-        return self.channel_first(torch.Tensor(frame)), self.add_channel_dim(torch.Tensor(seggray)), self.channel_first(torch.tensor(segrgb))
+        segimg, seggray, segrgb, segmulti = self.autoseg(frame)
+        frame = self.channel_first(torch.tensor(frame))
+        frame = torchvision.transforms.Grayscale(num_output_channels=1)(frame)
+        return torch.Tensor(frame), torch.Tensor(segimg), self.add_channel_dim(torch.Tensor(seggray)), self.channel_first(torch.tensor(segrgb)), torch.tensor(segmulti, dtype=torch.uint8)

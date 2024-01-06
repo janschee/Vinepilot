@@ -6,7 +6,7 @@ class PrintLayer(torch.nn.Module):
         super(PrintLayer, self).__init__()
 
     def forward(self, x):
-        print(x.shape)
+        print(x.shape, x.dtype)
         return x
 
 class Interpolate(torch.nn.Module):
