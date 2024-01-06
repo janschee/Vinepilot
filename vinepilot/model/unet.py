@@ -9,7 +9,6 @@ class DoubleConv(torch.nn.Module):
         if not mid_channels:
             mid_channels = out_channels
         self.double_conv = torch.nn.Sequential(
-            PrintLayer(),
             torch.nn.Conv2d(in_channels, mid_channels, kernel_size=3, padding=1, bias=False),
             torch.nn.BatchNorm2d(mid_channels),
             torch.nn.ReLU(inplace=True),

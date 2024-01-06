@@ -1,3 +1,3 @@
 *.mp4
 venv/
-/vinepilot/model/best_model.pth
+vinepilot/model/best_model.pth

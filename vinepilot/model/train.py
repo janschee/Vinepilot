@@ -22,8 +22,8 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
         for batch, (img, segimg, seggray, segrgb, segmulti) in enumerate(dataloader):
 
             #Forward
-            predictions: list = model(img)
-            loss = loss_fn(predictions, segmulti)
+            predictions: list = model(img.to(torch.float))
+            loss = loss_fn(predictions, segmulti.to(torch.float))
 
             #Backward
             loss.backward()
@@ -41,9 +41,9 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
                 torch.save(model.state_dict(), model_weights)
 
             #Visualize predictions TODO: Only for testing
-            save_torch_image(seggray[0], target_img)
-            save_torch_image(predictions[0].detach(), pred_img)
-            save_numpy_image(AutoSeg().gray2rgb(torch2numpy_img(predictions[0].detach())), pred_rgb_img)
+            #save_torch_image(seggray[0], target_img)
+            #save_torch_image(predictions[0].detach(), pred_img)
+            #save_numpy_image(AutoSeg().gray2rgb(torch2numpy_img(predictions[0].detach())), pred_rgb_img)
         
             
             
