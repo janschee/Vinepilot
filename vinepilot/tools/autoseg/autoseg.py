@@ -2,6 +2,7 @@ import logging
 import time
 import cv2
 import numpy as np
+import torch
 from vinepilot.config import Project
 
 #TODO: change all image formats to (batch, channel, hight, width)
@@ -90,8 +91,6 @@ class AutoSeg():
     @staticmethod
     def area_size_filter(img: np.ndarray, threshold_area: int = 500):
         fimg: np.ndarray = img.copy()
-        #grayscale: np.ndarray = np.array(cv2.cvtColor(img, cv2.COLOR_RGB2GRAY))
-        #_, binary_mask = cv2.threshold(grayscale, 1, 255, cv2.THRESH_BINARY)
         binary_mask = img
         contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         for con in contours:
@@ -172,6 +171,12 @@ class AutoSeg():
         binary_tensor: np.ndarray = np.zeros((num_channels, img.shape[0], img.shape[1])) #Channel first format!
         for i in range(num_channels): binary_tensor[i] = np.where(img == i, 1, 0)
         return np.array(binary_tensor).astype(np.uint8)
+
+    def multichannel2rgb(self, img: torch.TensorType) -> np.ndarray:
+        idimg: torch.TensorType = torch.max(img, dim=0).indices
+        return self.seg2rgb(idimg.numpy())
+
+
 
 
     def __call__(self, img: np.ndarray) -> np.ndarray:

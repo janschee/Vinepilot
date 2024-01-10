@@ -15,7 +15,7 @@ pred_rgb_img = os.path.join(Project.vineyards_dir, "./vineyard_000/pred_rgb_000.
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
     model_weights: str = os.path.normpath(os.path.join(Project.model_dir, "./best_model.pth"))
     logging.info(f"Train: Model Architecture: {model}")
-    #model.load_state_dict(torch.load(model_weights))
+    model.load_state_dict(torch.load(model_weights))
     model.train()
     min_loss: float = float("inf")
     for epoch in range(num_epochs):
@@ -41,11 +41,11 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
                 torch.save(model.state_dict(), model_weights)
 
             #Visualize predictions TODO: Only for testing
-            #save_torch_image(seggray[0], target_img)
+            pred_rgb = AutoSeg().multichannel2rgb(predictions[0].detach())
+            save_numpy_image(pred_rgb, pred_rgb_img)
+            save_torch_image(seggray[0], target_img)
             #save_torch_image(predictions[0].detach(), pred_img)
-            #save_numpy_image(AutoSeg().gray2rgb(torch2numpy_img(predictions[0].detach())), pred_rgb_img)
         
-            
             
 
 
