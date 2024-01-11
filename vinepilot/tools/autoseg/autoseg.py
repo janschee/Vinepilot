@@ -24,7 +24,7 @@ class AutoSeg():
             "grapevine": {
                 "leaves": [(54, 31, 56), 50], #Lab
                 #"leaves": [(196, 105, 18), 100], #rgb
-                #"trunk": [(83,94,105)],
+                #"trunk": [(53, -15, 4), 13],
                 #"trellis": [(81,94,103)]
             },
 
@@ -188,6 +188,7 @@ class AutoSeg():
 
         #Normalize luminance
         x = self.normalize_luminace(x)
+        x_lab = x
 
         #Filter
         x = self.median_filter(x)
@@ -217,8 +218,6 @@ class AutoSeg():
         #Convert to multi-channel
         x_multi = self.seg2multichannel(x)
 
-        #Overlay
-        #overlay = cv2.addWeighted(img, 0.5, x, 0.5, 0)
         end = time.time()
         logging.debug(f"AutoSeg: ...Done! ({end-start} sec.)")
         return np.array(x), np.array(x_gray), np.array(x_rgb), np.array(x_multi)

@@ -5,6 +5,7 @@ project:
   data: "./vinepilot/data/data.json"
   vineyards_dir: "./vinepilot/data/vineyards"
   model_dir: "./vinepilot/model" 
+  model_weights: "./vinepilot/model/best_model.pth"
 train:
   batch_size: 5
   epochs: 3

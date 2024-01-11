@@ -12,6 +12,7 @@ class Project():
     data_path: str = os.path.normpath(os.path.join(base_dir, config["project"]["data"]))
     vineyards_dir: str = os.path.normpath(os.path.join(base_dir, config["project"]["vineyards_dir"]))
     model_dir: str = os.path.normpath(os.path.join(base_dir, config["project"]["model_dir"]))
+    model_weights: str = os.path.normpath(os.path.join(base_dir, config["project"]["model_weights"]))
 
     #Train
     batch_size: int = config["train"]["batch_size"]

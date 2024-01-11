@@ -39,9 +39,10 @@ def torch2numpy_img(tensor) -> np.ndarray:
     npimg = np.transpose(tensor, (1,2,0))
     return np.array(npimg).astype(np.uint8)
 
-def save_autoseg_imgs(target_dir: str, dataset) -> None:
-    raise NotImplemented
-
+def superimpose_images(img1: np.ndarray, img2: np.ndarray) -> np.ndarray:
+    imgs = [img1, img2]
+    imgs = [np.dstack((x,x,x)) if x.shape[2] == 1 else x for x in imgs]
+    return cv2.addWeighted(imgs[0], 0.5, imgs[1], 0.5, 0)
 
 
 
