@@ -2,9 +2,7 @@ import logging
 import os
 import torch
 
-from vinepilot.utils import save_torch_image, save_numpy_image, torch2numpy_img
 from vinepilot.config import Project
-from vinepilot.tools import AutoSeg
 
 #TODO: This seems a little out of place here. Find better solution!
 frame_img = os.path.join(Project.vineyards_dir, "./vineyard_000/frame_000.png")
@@ -40,14 +38,6 @@ def train(dataloader, model, loss_fn, optimizer, num_epochs):
                 min_loss = loss.item()
                 torch.save(model.state_dict(), Project.model_weights)
 
-            #Visualize predictions TODO: Only for testing
-            pred_rgb = AutoSeg().multichannel2rgb(predictions[0].detach())
-            save_numpy_image(pred_rgb, pred_rgb_img)
-            save_torch_image(img[0], frame_img)
-            save_torch_image(segrgb[0], target_img)
-            #save_torch_image(predictions[0].detach(), pred_img)
-        
-            
 
 
 
