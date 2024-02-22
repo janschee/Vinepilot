@@ -1,12 +1,6 @@
 #!/home/jan/Vinepilot/venv/bin/python
 
-#from vinepilot.tools import VineyardViewer
-#viewer = VineyardViewer()
-#viewer.show()
-
-import os
 import numpy as np
-import time
 from torch.utils.data import DataLoader
 from vinepilot.config import Project
 from vinepilot.model.train import train
@@ -15,8 +9,6 @@ from vinepilot.model.data import VinePilotSegmentationDataset
 from vinepilot.model.unet import UNet
 from vinepilot.model.optimizer import VinePilotOptimizer
 from vinepilot.model.loss import VinePilotLoss
-from vinepilot.tools import AutoSeg
-from vinepilot.utils import Transform
 
 
 dataset = VinePilotSegmentationDataset()

@@ -13,7 +13,3 @@ train:
   optimizer: "adam"
   loss: "mse"
   learning_rate: 0.001
-test:
-server:
-  host_address: "192.168.114.132"
-  port: 8000

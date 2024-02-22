@@ -9,7 +9,6 @@ from vinepilot.utils import Transform
 from vinepilot.utils import save_torch_image, save_numpy_image, superimpose_images, torch2numpy_img, load_video_frame
 
 
-#TODO: This seems a little out of place here. Find better solution!
 test_video = os.path.join(Project.vineyards_dir, "./vineyard_000/vineyard_000.mp4")
 frame_img = os.path.join(Project.vineyards_dir, "./vineyard_000/frame_000.png")
 frame_gray_img = os.path.join(Project.vineyards_dir, "./vineyard_000/frame_gray_000.png")

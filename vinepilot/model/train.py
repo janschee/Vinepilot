@@ -1,14 +1,7 @@
 import logging
 import os
 import torch
-
 from vinepilot.config import Project
-
-#TODO: This seems a little out of place here. Find better solution!
-frame_img = os.path.join(Project.vineyards_dir, "./vineyard_000/frame_000.png")
-target_img = os.path.join(Project.vineyards_dir, "./vineyard_000/target_000.png")
-pred_img = os.path.join(Project.vineyards_dir, "./vineyard_000/pred_000.png")
-pred_rgb_img = os.path.join(Project.vineyards_dir, "./vineyard_000/pred_rgb_000.png")
 
 
 def train(dataloader, model, loss_fn, optimizer, num_epochs):
