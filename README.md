@@ -1,7 +1,7 @@
 # VinePilot: Semantic Segmentation for Autonomous Driving in Vineyards
 
 ## Approach
-![Overview](overview.png)
+![Overview](overview.jpeg)
 
 ## Project Structure
 - **Config:** Contains configurations and paths for the project.
